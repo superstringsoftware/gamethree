@@ -46,7 +46,7 @@ function Sphere(props: JSX.IntrinsicElements['mesh']) {
   // Rotate mesh every frame, this is outside of React without overhead
   useFrame((state, delta) => {
     //ref.current.rotation.y += 0.001
-    ref.current.rotation.y += 0.0005
+    ref.current.rotation.y += 0.0002
     ref1.current.rotation.y +=0.0006
     ref1.current.rotation.z +=0.0001
   })
