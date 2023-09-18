@@ -34,10 +34,12 @@ function Sphere(props: JSX.IntrinsicElements['mesh']) {
   const emissive = useLoader(TextureLoader, 'Textures/Earth_Nightlights.png')
   const clouds = useLoader(TextureLoader, 'Textures/Earth_Clouds.png')
   const specular = useLoader(TextureLoader, "Textures/2k_earth_specular_map.png")
+  //const sun = useLoader(TextureLoader, 'Textures/2k_sun.jpg')
   
   // This reference will give us direct access to the THREE.Mesh object
   const ref = useRef<THREE.Mesh>(null!)
   const ref1 = useRef<THREE.Mesh>(null!)
+  const ref2 = useRef<THREE.Mesh>(null!)
   // Hold state for hovered and clicked events
   const [hovered, hover] = useState(false)
   const [clicked, click] = useState(false)
@@ -63,14 +65,44 @@ function Sphere(props: JSX.IntrinsicElements['mesh']) {
         specularMap={specular} 
         specular={"#333333"}  />
     </mesh>
-    <mesh
+    <mesh 
+      {...props}
       ref={ref1}
       scale={1}>
       <sphereGeometry args={[1.51, 512, 256]} />
       <meshPhongMaterial alphaMap={clouds} transparent={true} opacity={0.9}/>
       
     </mesh>
+    
     </>
+  )
+}
+
+function Sun(props: JSX.IntrinsicElements['mesh']) {
+  const sun = useLoader(TextureLoader, 'Textures/2k_sun.jpg')
+  
+  // This reference will give us direct access to the THREE.Mesh object
+  const ref = useRef<THREE.Mesh>(null!)
+  
+  
+  // Rotate mesh every frame, this is outside of React without overhead
+  useFrame((state, delta) => {
+    ref.current.rotation.y += 0.001
+    
+  })
+
+  return (
+    
+    
+    <mesh
+      {...props}
+      ref={ref}
+      scale={1}>
+      <sphereGeometry args={[0.3, 512, 256]}  />
+      <meshPhongMaterial emissiveMap={sun} emissiveIntensity={50} emissive={"#555544"} />
+      
+    </mesh>
+    
   )
 }
 
@@ -79,7 +111,8 @@ export const App = () => (
       <ambientLight intensity={0.1} />
       <pointLight position={[-20, 0, 0]} intensity={1500} />
       
-      
       <Sphere position={[0, 0, 0]} />
+      
+      <Sun position={[-4, 0, 0]} />
     </Canvas>
 );
