@@ -1,0 +1,155 @@
+[
+    {
+        "COMMENTS": "Ok, so for habitation - why don't we simply allow people to draw as many sectors as they like and that defines the square footage, eg 1 sector is 10m2, so 10 sectors is 100 and 20 sectors is 200 - pretty realistic no? Then if our mobile phone tower is max 30 squares wide - we get 15 small apartments or 1 luxury 300m2 suite, seems legit? Also this is in the spirit of 'zoning' from sim games."
+    },
+    {
+        "name": "Small Gas Generator",
+        "category": "Energy",
+        "description": "Small Natural Gas Generator\n\nProduces",
+        "size": {
+            "sectors": 3,
+            "floors": 1
+        },
+        "production": {
+            "formulaDescription": "25 MJ (7kw-h) from 1 kg of gas (50% cua for burning gas). We calculate all production per day. Output tells us minimum possible production level and maximum, then perResources value tells us how much is produced per unit of resources defined below. So to calculate resource consumption, we divide current production level (between min and max) by perResources value. Then baseConsumption is whatever is consumed regardless of the output level per day. Open question: HOW DO WE MODEL JOBS EFFECT???",
+            "resource": "Energy",
+            "output": {
+                "min": 2400,
+                "max": 24000,
+                "dimension": "kWt-h / day",
+                "perResources": 7,
+                "consumption": [
+                    {
+                        "resource": "Natural Gas",
+                        "quantity": 1,
+                        "dimension": "kg"
+                    },
+                    {
+                        "resource": "Technical Water",
+                        "quantity": 0.001,
+                        "dimension": "liter"
+                    }
+                ]
+            },
+            "baseConsumption": [
+                {
+                    "resource": "Technical Water",
+                    "quantity": 5,
+                    "dimension": "liter"
+                }
+            ]
+        },
+        "jobs": [
+            {
+                "title": "Service Engineer",
+                "minEducation": 50,
+                "minExperience": 0,
+                "maxEducation": 60,
+                "quantity": 2
+            }
+        ]
+    },
+    {
+        "name": "Small Technical Water Pump",
+        "category": "Utilities",
+        "description": "Small Technical Water Pump\n\nProduces technical water - so without any cleaning. SPECIAL FORMULA!!",
+        "size": {
+            "sectors": 3,
+            "floors": 1
+        },
+        "production": {
+            "formulaDescription": "100,000 liters per day, but energy consumption is calculated based on which floor it is needed on",
+            "resource": "Technical Water",
+            "output": {
+                "min": 10000,
+                "max": 100000,
+                "dimension": "liters / day",
+                "perResources": 1000,
+                "consumption": [
+                    {
+                        "resource": "Floor",
+                        "quantity": 1,
+                        "dimension": "unit",
+                        "comment": "this is a special resource, we use it to calculate energy consumption. Basically, the way we need to do it in the real gameplay is analyze how much each floor consumes and then calculate this additional energy. 30000 Nm is 8.33 wt-h, so if a floor is 3m then 10,000 liters to 1 floor is 8.33 wt-h"
+                    },
+                    {
+                        "resource": "Energy",
+                        "quantity": 0.1,
+                        "dimension": "kw-h"
+                    }
+                ]
+            },
+            "baseConsumption": [
+                {
+                    "resource": "Energy",
+                    "quantity": 2,
+                    "dimension": "kw-h"
+                }
+            ]
+        },
+        "jobs": [
+            {
+                "title": "Service Engineer",
+                "minEducation": 50,
+                "minExperience": 0,
+                "maxEducation": 60,
+                "quantity": 2
+            }
+        ]
+    },
+    {
+        "name": "Small Clean Water Pump",
+        "category": "Utilities",
+        "description": "Small Clean Water Pump\n\nProduces clean water - so extracts from the earth but then purifies additionally. SPECIAL FORMULA!!",
+        "size": {
+            "sectors": 4,
+            "floors": 1
+        },
+        "production": {
+            "formulaDescription": "100,000 liters per day, but energy consumption is calculated based on which floor it is needed on",
+            "resource": "Clean Water",
+            "output": {
+                "min": 10000,
+                "max": 100000,
+                "dimension": "liters / day",
+                "perResources": 1000,
+                "consumption": [
+                    {
+                        "resource": "Floor",
+                        "quantity": 1,
+                        "dimension": "unit",
+                        "comment": "this is a special resource, we use it to calculate energy consumption. Basically, the way we need to do it in the real gameplay is analyze how much each floor consumes and then calculate this additional energy. 30000 Nm is 8.33 wt-h, so if a floor is 3m then 10,000 liters to 1 floor is 8.33 wt-h"
+                    },
+                    {
+                        "resource": "Energy",
+                        "quantity": 0.2,
+                        "dimension": "kwt-h"
+                    }
+                ]
+            },
+            "baseConsumption": [
+                {
+                    "resource": "Energy",
+                    "quantity": 2,
+                    "dimension": "kw-h"
+                }
+            ]
+        },
+        "jobs": [
+            {
+                "title": "Service Engineer",
+                "minEducation": 50,
+                "minExperience": 0,
+                "maxEducation": 60,
+                "quantity": 2
+            },
+            {
+                "title": "Senior Service Engineer",
+                "minEducation": 60,
+                "minExperience": 0,
+                "maxEducation": 80,
+                "quantity": 1
+            }
+        ]
+    }
+]
