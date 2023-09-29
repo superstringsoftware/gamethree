@@ -1,8 +1,5 @@
 [
     {
-        "COMMENTS": "Ok, so for habitation - why don't we simply allow people to draw as many sectors as they like and that defines the square footage, eg 1 sector is 10m2, so 10 sectors is 100 and 20 sectors is 200 - pretty realistic no? Then if our mobile phone tower is max 30 squares wide - we get 15 small apartments or 1 luxury 300m2 suite, seems legit? Also this is in the spirit of 'zoning' from sim games."
-    },
-    {
         "name": "Small Gas Generator",
         "category": "Energy",
         "description": "Small Natural Gas Generator\n\nProduces",
