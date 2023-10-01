@@ -7,11 +7,12 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Game } from '/imports/games/simtower/ui/Game';
+import { GameAntares } from '/imports/games/antares/ui/GameAntares';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Game />,
+    element: <GameAntares />,
   },
   {
     path: "/planet",
