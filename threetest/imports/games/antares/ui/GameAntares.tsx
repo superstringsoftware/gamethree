@@ -2,12 +2,17 @@ import React from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import {useSubscribe, useFind} from 'meteor/react-meteor-data'
 import { useState } from "react";
+import { AllBuildings } from "../api/Buildings";
+import { TestPlanet } from "../api/Planets";
 
 const range = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
+const bld = AllBuildings
+const plt = TestPlanet
+
 export const GameAntares = () => {
 
-    
+  const [activeBld, setActiveBld] = useState(-1)    
 
   return (
     <>
@@ -96,10 +101,36 @@ export const GameAntares = () => {
           <Row className="mt-4">
           <Col md={6} lg={3} xl={2}>
               <h4>Facilities</h4>
+              <ul>
+                  {
+                      bld.map( (b,i) => <li key={i}>
+                          <a href="#" onClick={()=>setActiveBld(i)}>{b.name}</a>
+                          {(i === activeBld) && <p className="text-muted">
+                              {b.description}
+                              </p>}
+                    </li>)
+                  }
+              </ul>
               
           </Col>
           <Col md={6} lg={9} xl={10}>
-          <h4>Planet</h4>
+          <h4>Planet {plt.name}</h4>
+          <p>{plt.description}</p>
+          {
+              plt.sectors.map((r,i) => <Row key={i} className="mt-5">
+                  {r.map ((s,j) => <Col key={j}><>
+                      {(s.surfaceResources.length > 0) ? s.surfaceResources.map( (r,k1) => <span key={k1}>
+                          {r.name}{" "}
+                      </span>) : " -- "}
+                      <hr/>
+                      {s.terrain}, {s.climate}
+                      <hr/>
+                      {(s.groundResources.length > 0) ? s.groundResources.map( (r,k1) => <span key={k1}>
+                          {r.name}{" "}
+                      </span>): " -- "}
+                  </></Col>)}
+              </Row>)
+          }
           </Col>
           </Row>
       </Container>

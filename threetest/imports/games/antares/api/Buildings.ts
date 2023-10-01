@@ -41,6 +41,10 @@ export interface IBaseBuilding {
     produce?: ()=>Array<{name:string, quantity: number}>
 }
 
+export interface IBuilding extends IBaseBuilding {
+    
+}
+
 /**
  * Let's make core buildings hardcoded
  */
@@ -48,7 +52,7 @@ export interface IBaseBuilding {
 export const AllBuildings:IBaseBuilding[] = [
     {
         name: "Colony",
-        description: "",
+        description: "First settlement on the planet, serves as a capital eventually and as a Habitation district for building purposes.",
         category: "Capital",
         CAPEX: [],
         OPEX: [{name:"PD", quantity: 5}],
@@ -74,7 +78,7 @@ export const AllBuildings:IBaseBuilding[] = [
     },
     {
         name: "Village",
-        description: "",
+        description: "Smallest habitation on the planet. Can be built anywhere on earth-like environments. Biggest possible settlement in the low mountains.",
         category: "Habitation",
         CAPEX: [],
         OPEX: [{name:"PD", quantity: 10}],
@@ -105,7 +109,7 @@ export const AllBuildings:IBaseBuilding[] = [
     },
     {
         name: "Town",
-        description: "",
+        description: "What your village grows into. Bigger, more dynamic. Biggest possible settlement on high hills",
         category: "Habitation",
         CAPEX: [],
         OPEX: [{name:"PD", quantity: 20}],
@@ -140,7 +144,7 @@ export const AllBuildings:IBaseBuilding[] = [
     },
     {
         name: "City",
-        description: "",
+        description: "Roughly a couple of million inhabitants city by earth standards. Biggest possible settlement on hills.",
         category: "Habitation",
         CAPEX: [],
         OPEX: [{name:"PD", quantity: 50}],
@@ -175,7 +179,7 @@ export const AllBuildings:IBaseBuilding[] = [
     },
     {
         name: "Megapolis",
-        description: "",
+        description: "Huge modern bustling settlement. Can only be built on plain terrain.",
         category: "Habitation",
         CAPEX: [],
         OPEX: [{name:"PD", quantity: 150}],
@@ -210,7 +214,7 @@ export const AllBuildings:IBaseBuilding[] = [
     },
     {
         name: "Futurepolis",
-        description: "",
+        description: "Futuristic settlement, the biggest you can get. Can only be built on plain terrain.",
         category: "Habitation",
         CAPEX: [],
         OPEX: [{name:"PD", quantity: 300}],
