@@ -1,13 +1,5 @@
-@import "{}/imports/scss/variables";
+@import "{}/imports/games/antares/scss/variables";
 @import "{}/node_modules/bootstrap/scss/bootstrap";
-@import "{}/imports/scss/bootswatch";
+@import "{}/imports/games/antares/scss/bootswatch";
+@import "{}/imports/games/antares/scss/custom";
 
-.planet-sector {
-    border: solid 1px #eeeeee !important;
-}
-.planet-sector:hover {
-    border: dotted 1px #33ff33 !important;
-}
-.planet-sector.selected {
-    border: solid 2px green !important;
-}

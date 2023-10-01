@@ -47,11 +47,8 @@ export const GameAntares = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+      <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Navbar
-          </a>
           <button
             className="navbar-toggler"
             type="button"
@@ -67,8 +64,7 @@ export const GameAntares = () => {
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
                 <a className="nav-link active" href="#">
-                  Home
-                  <span className="visually-hidden">(current)</span>
+                <i className="fa-thin fa-gear" style={{color: "#0eff4c"}}></i>
                 </a>
               </li>
               <li className="nav-item">
