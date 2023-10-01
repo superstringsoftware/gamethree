@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { Game } from '/imports/games/simtower/ui/Game';
 import { GameAntares } from '/imports/games/antares/ui/GameAntares';
+import { Terminal } from '/imports/games/antares/ui/Terminal';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/planet",
     element: <App />
+  },
+  {
+    path: "/term",
+    element: <Terminal />
   }
 ]);
 

@@ -12,6 +12,7 @@ const range = (min, max) =>
 const bld = AllBuildings;
 const plt = TestPlanet;
 
+
 export const GameAntares = () => {
   const [activeBld, setActiveBld] = useState(-1);
   const [activeSector, setActiveSector] = useState([-1, -1]);
@@ -180,6 +181,8 @@ export const GameAntares = () => {
           </Col>
         </Row>
       </Container>
+      
+
     </>
   );
 };
