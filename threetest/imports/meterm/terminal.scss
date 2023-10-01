@@ -11,13 +11,13 @@ input.term-input:focus{
 .terminal {
     background-color: black;
     background-image: radial-gradient(
-      rgba(0, 150, 0, 0.75), black 120%
+      rgba(0, 125, 0, 0.75), black 120%
     );
     height: 100vh;
     margin: 0;
     overflow: hidden;
     padding: 2rem;
-    color: rgb(194, 245, 173);
+    color: rgb(210, 255, 210);
     font: 1.3rem Inconsolata, monospace;
     text-shadow: 0 0 5px #C8C8C8;
     &::after {

@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { Game } from '/imports/games/simtower/ui/Game';
 import { GameAntares } from '/imports/games/antares/ui/GameAntares';
-import { Terminal } from '/imports/games/antares/ui/Terminal';
+import { Terminal } from '../imports/meterm/Terminal';
 
 const router = createBrowserRouter([
   {
