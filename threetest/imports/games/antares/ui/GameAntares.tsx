@@ -1,18 +1,49 @@
 import React from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import {useSubscribe, useFind} from 'meteor/react-meteor-data'
+import { useSubscribe, useFind } from "meteor/react-meteor-data";
 import { useState } from "react";
-import { AllBuildings } from "../api/Buildings";
+import { AllBuildings, BuildingFunctions, IBuilding } from "../api/Buildings";
 import { TestPlanet } from "../api/Planets";
 
-const range = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
-const bld = AllBuildings
-const plt = TestPlanet
+const range = (min, max) =>
+  Array.from({ length: max - min + 1 }, (_, i) => min + i);
+
+const bld = AllBuildings;
+const plt = TestPlanet;
 
 export const GameAntares = () => {
+  const [activeBld, setActiveBld] = useState(-1);
+  const [activeSector, setActiveSector] = useState([-1, -1]);
+  const [opexStr, setOPEXStr] = useState("none")
 
-  const [activeBld, setActiveBld] = useState(-1)    
+  // building selected building in the active sector
+  // eventually this must go to the server as the server is the source of truth
+  const build = () => {
+    if ((activeBld !== -1) && 
+        (activeSector[0] !== -1) && 
+        (activeSector[1] !== -1)) {
+            const b = bld[activeBld]
+            console.log(`Building ${b.name} in the sector [${activeSector[0]}, ${activeSector[1]}]`)
+            const s = plt.sectors[activeSector[0]][activeSector[1]]
+            if (!s.buildings) {
+                s.buildings = []
+            }
+            const bl : IBuilding = {
+                template: b,
+                currentInhabitants: [],
+                currentWorkers: b.jobs.map(_ => [])
+            }
+            // need a clone or different way to handle this
+            s.buildings.push(bl)
+            const opx = BuildingFunctions.CalculateOPEX(bl,1)
+            console.log(opx)
+            const opexes = BuildingFunctions.CalculateOPEXList(s.buildings,1)
+            console.log(opexes)
+            setOPEXStr(opexes.reduce((acc,cv)=> acc + cv.name + ": " + cv.quantity.toString() + " | ",
+            ""))
+        }
+  }
 
   return (
     <>
@@ -98,41 +129,60 @@ export const GameAntares = () => {
       </nav>
 
       <Container fluid>
-          <Row className="mt-4">
+        <Row className="mt-4">
           <Col md={6} lg={3} xl={2}>
-              <h4>Facilities</h4>
-              <ul>
-                  {
-                      bld.map( (b,i) => <li key={i}>
-                          <a href="#" onClick={()=>setActiveBld(i)}>{b.name}</a>
-                          {(i === activeBld) && <p className="text-muted">
-                              {b.description}
-                              </p>}
-                    </li>)
-                  }
-              </ul>
-              
+            <h4>Facilities</h4>
+            <ul>
+              {bld.map((b, i) => (
+                <li key={i}>
+                  <a href="#" onClick={() => setActiveBld(i)}>
+                    {b.name}
+                  </a>
+                  {i === activeBld && (<>
+                    <p className="text-muted">{b.description}</p>
+                    <Button variant="outline-info" 
+                        className="btn-sm"
+                        onClick={build}>Build</Button>
+                    </>
+                  )}
+                </li>
+              ))}
+            </ul>
           </Col>
           <Col md={6} lg={9} xl={10}>
-          <h4>Planet {plt.name}</h4>
-          <p>{plt.description}</p>
-          {
-              plt.sectors.map((r,i) => <Row key={i} className="mt-5">
-                  {r.map ((s,j) => <Col key={j}><>
-                      {(s.surfaceResources.length > 0) ? s.surfaceResources.map( (r,k1) => <span key={k1}>
-                          {r.name}{" "}
-                      </span>) : " -- "}
-                      <hr/>
+            <h4>Planet {plt.name}</h4>
+            <p>{plt.description}</p>
+            Production:
+            <br/>OPEX: {opexStr}
+            <br/>
+            {plt.sectors.map((r, i) => (
+              <Row key={i} className="p-2">
+                {r.map((s, j) => {
+                    const cls = (activeSector[0] === i) && (activeSector[1] === j) ? "planet-sector selected p-2" : "planet-sector p-2"
+                return (
+                  <Col key={j} className={cls}
+                  onClick={()=>setActiveSector([i,j])}>
+                    <>{s.buildings?.map((b,l) => <span key={l}>{b.template.name}{" | "}</span>)}
+                      {s.surfaceResources.length > 0
+                        ? s.surfaceResources.map((r, k1) => (
+                            <span key={k1}>{r.name} </span>
+                          ))
+                        : " -- "}
+                      <hr />
                       {s.terrain}, {s.climate}
-                      <hr/>
-                      {(s.groundResources.length > 0) ? s.groundResources.map( (r,k1) => <span key={k1}>
-                          {r.name}{" "}
-                      </span>): " -- "}
-                  </></Col>)}
-              </Row>)
-          }
+                      <hr />
+                      {s.groundResources.length > 0
+                        ? s.groundResources.map((r, k1) => (
+                            <span key={k1}>{r.name} </span>
+                          ))
+                        : " -- "}
+                    </>
+                  </Col>
+                )})}
+              </Row>
+            ))}
           </Col>
-          </Row>
+        </Row>
       </Container>
     </>
   );

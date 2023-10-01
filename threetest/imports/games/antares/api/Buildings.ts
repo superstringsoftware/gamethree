@@ -1,5 +1,7 @@
 // https://docs.google.com/spreadsheets/d/1V0ygoOzjEA_XTqSV4fD0C3f_RUdqYshmZxpgZBYElkQ/edit#gid=0
 
+import { ResFunctions } from "./Resources"
+
 export interface IJobRequirements 
 {
     minEducation: number,
@@ -35,14 +37,57 @@ export interface IBaseBuilding {
         maxNumber: number,
         current: string[] // array of sim ids that live here
     },
+    maxInhabitants: number,
     // if the building is workable
     jobs: IJobRequirements[],
-    // FUNCTIONS
-    produce?: ()=>Array<{name:string, quantity: number}>
 }
 
-export interface IBuilding extends IBaseBuilding {
-    
+export interface IBuilding {
+    template: IBaseBuilding,
+    currentInhabitants: string[], // array of ids
+    currentWorkers: string[][], // array of array of ids - to correspond to the array of JobRequirements!!!
+}
+
+// various functions to work on buildings, mainly production and consumption
+export const BuildingFunctions = {
+
+    CalculateProduction: (b: IBuilding, turns: number) => {
+
+    },
+
+    /**
+     * calculating opex for a building
+     */
+    CalculateOPEX: (b: IBuilding, turns: number) => {
+        let res = ResFunctions.MulScalar(b.template.OPEX, turns)
+        if (b.currentInhabitants.length > 0) {
+            // counting by inhabitants if its habitable...
+            const ps = ResFunctions.MulScalar(b.template.OPEXPerSim, b.currentInhabitants.length * turns)
+            res = ResFunctions.AddVectors(ps,res)
+        }
+        else {
+            // counting by workers!
+            let nw = 0
+            b.currentWorkers.forEach( wa => nw += wa.length)
+            if (nw > 0) {
+                const ps = ResFunctions.MulScalar(b.template.OPEXPerSim, nw * turns)
+                res = ResFunctions.AddVectors(ps,res)
+            }
+        }
+        return res
+    },
+
+    /**
+     * calculate opex for a list of buildings
+     */
+    CalculateOPEXList: (bs: IBuilding[], turns: number) => {
+        const opexes = bs.map( b => BuildingFunctions.CalculateOPEX(b,turns))
+        //console.log("Inside CalculateOPEXList")
+        //console.log(opexes)
+        return opexes.reduce((accumulator, currentValue) => 
+            ResFunctions.AddVectors(accumulator,currentValue),
+            [],)
+    }
 }
 
 /**
@@ -66,10 +111,7 @@ export const AllBuildings:IBaseBuilding[] = [
             tech: [] 
         },
         // if the building is inhabitable
-        inhabitants: {
-            maxNumber: 10,
-            current: []
-        },
+        maxInhabitants: 10,
         // if the building is workable
         jobs: [{
             minEducation: 40,
@@ -93,10 +135,7 @@ export const AllBuildings:IBaseBuilding[] = [
             tech: [] 
         },
         // if the building is inhabitable
-        inhabitants: {
-            maxNumber: 25,
-            current: []
-        },
+        maxInhabitants: 25,
         // if the building is workable
         jobs: [{
             minEducation: 40,
@@ -124,10 +163,7 @@ export const AllBuildings:IBaseBuilding[] = [
             tech: [] 
         },
         // if the building is inhabitable
-        inhabitants: {
-            maxNumber: 100,
-            current: []
-        },
+        maxInhabitants: 100,
         // if the building is workable
         jobs: [{
             minEducation: 40,
@@ -159,10 +195,7 @@ export const AllBuildings:IBaseBuilding[] = [
             tech: [] 
         },
         // if the building is inhabitable
-        inhabitants: {
-            maxNumber: 250,
-            current: []
-        },
+        maxInhabitants: 250,
         // if the building is workable
         jobs: [{
             minEducation: 40,
@@ -194,10 +227,7 @@ export const AllBuildings:IBaseBuilding[] = [
             tech: [] 
         },
         // if the building is inhabitable
-        inhabitants: {
-            maxNumber: 500,
-            current: []
-        },
+        maxInhabitants: 500,
         // if the building is workable
         jobs: [{
             minEducation: 40,
@@ -229,10 +259,7 @@ export const AllBuildings:IBaseBuilding[] = [
             tech: [] 
         },
         // if the building is inhabitable
-        inhabitants: {
-            maxNumber: 1000,
-            current: []
-        },
+        maxInhabitants: 1000,
         // if the building is workable
         jobs: [{
             minEducation: 40,

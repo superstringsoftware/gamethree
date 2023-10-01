@@ -21,18 +21,21 @@ export const ResFunctions = {
     // straightforward addition of 2 vectors
     AddVectors: (x:{name:string, quantity: number}[],
         y:{name:string, quantity: number}[]) => {
+            //console.log("[ResFunctions.AddVectors]")
+            //console.log("Adding ", x,y)
             let res = x.map( r => {
                 const r1 = y.find( el => el.name === r.name)
                 if (r1) {
                     return {name: r.name, quantity: r.quantity + r1.quantity}
-                } else return r
+                } else return {name: r.name, quantity: r.quantity }
             })
             y.forEach(r => {
                 const r1 = x.find( el => el.name === r.name)
-                if (!y) {
+                if (!r1) {
                     res.push(r)
                 }
             })
+            //console.log("Result", res)
             return res;
         },
 
