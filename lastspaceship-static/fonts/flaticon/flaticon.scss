@@ -1,0 +1,121 @@
+$flaticon_mycollection-font: "flaticon_mycollection";
+
+@font-face {
+    font-family: $flaticon_mycollection-font;
+    src: url("./flaticon_mycollection.ttf?40df0da5ed01ab1ce748be7c75d15412") format("truetype"),
+url("./flaticon_mycollection.woff?40df0da5ed01ab1ce748be7c75d15412") format("woff"),
+url("./flaticon_mycollection.woff2?40df0da5ed01ab1ce748be7c75d15412") format("woff2"),
+url("./flaticon_mycollection.eot?40df0da5ed01ab1ce748be7c75d15412#iefix") format("embedded-opentype"),
+url("./flaticon_mycollection.svg?40df0da5ed01ab1ce748be7c75d15412#flaticon_mycollection") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon_mycollection !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$flaticon_mycollection-map: (
+    "gaming": "\f101",
+    "gaming-1": "\f102",
+    "vr-game": "\f103",
+    "gaming-2": "\f104",
+    "online-game": "\f105",
+    "dice": "\f106",
+    "joystick": "\f107",
+    "gaming-3": "\f108",
+    "controller": "\f109",
+    "world": "\f10a",
+    "gaming-4": "\f10b",
+    "bolt": "\f10c",
+    "computer": "\f10d",
+    "headset": "\f10e",
+    "mouse": "\f10f",
+    "online-gaming": "\f110",
+    "game": "\f111",
+    "character": "\f112",
+    "sports-game": "\f113",
+    "steering-wheel": "\f114",
+    "vr-glasses": "\f115",
+    "simulator": "\f116",
+    "gaming-5": "\f117",
+    "arcade": "\f118",
+);
+
+.flaticon-gaming:before {
+    content: map-get($flaticon_mycollection-map, "gaming");
+}
+.flaticon-gaming-1:before {
+    content: map-get($flaticon_mycollection-map, "gaming-1");
+}
+.flaticon-vr-game:before {
+    content: map-get($flaticon_mycollection-map, "vr-game");
+}
+.flaticon-gaming-2:before {
+    content: map-get($flaticon_mycollection-map, "gaming-2");
+}
+.flaticon-online-game:before {
+    content: map-get($flaticon_mycollection-map, "online-game");
+}
+.flaticon-dice:before {
+    content: map-get($flaticon_mycollection-map, "dice");
+}
+.flaticon-joystick:before {
+    content: map-get($flaticon_mycollection-map, "joystick");
+}
+.flaticon-gaming-3:before {
+    content: map-get($flaticon_mycollection-map, "gaming-3");
+}
+.flaticon-controller:before {
+    content: map-get($flaticon_mycollection-map, "controller");
+}
+.flaticon-world:before {
+    content: map-get($flaticon_mycollection-map, "world");
+}
+.flaticon-gaming-4:before {
+    content: map-get($flaticon_mycollection-map, "gaming-4");
+}
+.flaticon-bolt:before {
+    content: map-get($flaticon_mycollection-map, "bolt");
+}
+.flaticon-computer:before {
+    content: map-get($flaticon_mycollection-map, "computer");
+}
+.flaticon-headset:before {
+    content: map-get($flaticon_mycollection-map, "headset");
+}
+.flaticon-mouse:before {
+    content: map-get($flaticon_mycollection-map, "mouse");
+}
+.flaticon-online-gaming:before {
+    content: map-get($flaticon_mycollection-map, "online-gaming");
+}
+.flaticon-game:before {
+    content: map-get($flaticon_mycollection-map, "game");
+}
+.flaticon-character:before {
+    content: map-get($flaticon_mycollection-map, "character");
+}
+.flaticon-sports-game:before {
+    content: map-get($flaticon_mycollection-map, "sports-game");
+}
+.flaticon-steering-wheel:before {
+    content: map-get($flaticon_mycollection-map, "steering-wheel");
+}
+.flaticon-vr-glasses:before {
+    content: map-get($flaticon_mycollection-map, "vr-glasses");
+}
+.flaticon-simulator:before {
+    content: map-get($flaticon_mycollection-map, "simulator");
+}
+.flaticon-gaming-5:before {
+    content: map-get($flaticon_mycollection-map, "gaming-5");
+}
+.flaticon-arcade:before {
+    content: map-get($flaticon_mycollection-map, "arcade");
+}

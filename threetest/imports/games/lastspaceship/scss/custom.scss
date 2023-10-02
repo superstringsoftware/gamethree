@@ -1,0 +1,9 @@
+.planet-sector {
+    border: solid 1px #eeeeee !important;
+}
+.planet-sector:hover {
+    border: dotted 1px #33ff33 !important;
+}
+.planet-sector.selected {
+    border: solid 2px green !important;
+}
