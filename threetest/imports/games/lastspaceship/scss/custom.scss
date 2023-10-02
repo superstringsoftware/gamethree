@@ -7,3 +7,21 @@
 .planet-sector.selected {
     border: solid 2px green !important;
 }
+
+.text-sci-fi {
+    font-family: Orbitron;
+    text-shadow: #9af89a 2px 1px 5px;
+    color: #33ff33;
+}
+
+.two-image-stacked {
+    
+    background-image: url("/lastspaceship/img/reactor1-off.png"), url("/lastspaceship/img/reactor1.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-blend-mode: lighten;
+    height: 476px;
+    width: 476px;
+    position: relative;
+    //border: solid 1px white
+}

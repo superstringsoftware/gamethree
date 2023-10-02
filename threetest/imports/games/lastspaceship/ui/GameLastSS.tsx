@@ -77,30 +77,55 @@ export const GameLastSS = () => {
                 </div>
               </li>
             </ul>
-            <form className="d-flex">
-              <input
-                className="form-control me-sm-2"
-                type="search"
-                placeholder="Search"
-              />
-              <button className="btn btn-secondary my-2 my-sm-0" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
+           </div>
         </div>
       </nav>
 
       <Container fluid>
         <Row className="mt-4">
-          <Col md={6} lg={3} xl={2}>
-            <h4>Facilities</h4>
-            
+          <Col xl={4} lg={6} md={6} sm={12}>
+          <span className="text-sci-fi">this is your reactor</span>
+              <div className="two-image-stacked">
+              <div style={{position:"absolute", bottom: "8px", left: "8px",
+                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
+                className="text-center align-items-center">
+             <span className="text-sci-fi">fuel</span>
+          </div>
+          <div style={{position:"absolute", bottom: "8px", left: "86px",
+                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
+                className="text-center align-items-center">
+                    <span className="text-sci-fi">rods</span>
+          </div>
+          <div style={{position:"absolute", bottom: "8px", left: "164px",
+                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
+                className="text-center align-items-center">
+                    <span className="text-sci-fi">cool</span>
+          </div>
+          <div style={{position:"absolute", bottom: "8px", left: "242px",
+                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
+                className="text-center align-items-center">
+                    <span className="text-sci-fi">hull</span>
+          </div>
+          <div style={{position:"absolute", bottom: "8px", left: "320px",
+                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
+                className="text-center align-items-center">
+                    <span className="text-sci-fi">comp</span>
+          </div>
+          <div style={{position:"absolute", bottom: "8px", left: "398px",
+                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
+                className="text-center align-items-center">
+                    <span className="text-sci-fi">powr</span>
+          </div>
+              </div>
           </Col>
-          <Col md={6} lg={9} xl={10}>
-            <h4>Planet </h4>
-            
-          </Col>
+          
+          
         </Row>
       </Container>
       
