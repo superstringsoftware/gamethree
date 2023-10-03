@@ -49,12 +49,14 @@ export type JetDriveData = {
     massPerSec: number, // maximum fuel mass spend per second,
     Vex: number, // maximum exhaust velocity
     efficiency: number, // 0..1 conversion from power gen to energy of the jet
+    dryMass: number
 }
 
-export abstract class SublightDrive implements ShipPart, Resource {
+export abstract class SublightDrive extends ShipPart implements Resource {
     name = "Sublight Drive";
 
-    constructor() {
+    constructor(n: number, s: number) {
+        super(n,s)
     }
 
     /**
@@ -78,7 +80,7 @@ export class JetDrive extends SublightDrive {
     jetDriveData:JetDriveData;
     currentFuel: Resource;
     constructor(jd:JetDriveData) {
-        super()
+        super(jd.dryMass, jd.size)
         this.jetDriveData = jd;
         this.currentFuel = {
             name: "Water",
@@ -103,19 +105,28 @@ export class JetDrive extends SublightDrive {
     }
 }
 
-export class FTLDrive implements ShipPart, Resource {
-    name = "FTL Drive"
-}
 
-export const AllJetDrivesTypes : JetDriveData[] = [
+export const AllJetDriveTypes : JetDriveData[] = [
     {
-        name: "Johnson FM-319",
+        name: "Johnson FM-3",
         description: "Basic reliable jet drive",
         size: 1,
-        fuelStorage: 50000, // kg
+        fuelStorage: 500000, // kg
         fuelType: [{name: "Water"}],
-        massPerSec: 20, // maximum fuel mass spend per second,
+        massPerSec: 10, // maximum fuel mass spend per second,
         Vex: 1000000, // maximum exhaust speed 
         efficiency: 0.65, // 0..1 conversion from power gen to energy of the jet
+        dryMass: 20000
+    },
+    {
+        name: "General Atomic AA",
+        description: "Not so much built-in water tanks, but sure pulls a punch! Also, a bit more energy efficient.",
+        size: 1,
+        fuelStorage: 250000, // kg
+        fuelType: [{name: "Water"}],
+        massPerSec: 10, // maximum fuel mass spend per second,
+        Vex: 2500000, // maximum exhaust speed 
+        efficiency: 0.72, // 0..1 conversion from power gen to energy of the jet
+        dryMass: 35000
     }
 ]

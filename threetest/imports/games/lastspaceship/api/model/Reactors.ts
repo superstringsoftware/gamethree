@@ -9,9 +9,10 @@ export type ReactorData = {
     minPower: number, // MW
     maxPower: number,
     mc2coef: number, // %
+    dryMass: number
 }
 
-export class BaseReactor implements ShipPart, Resource {
+export class BaseReactor extends ShipPart implements Resource {
     name = "Base Reactor";
     reactorData: ReactorData;
     currentFuel: Resource; // how much and what type of U is in
@@ -27,6 +28,7 @@ export class BaseReactor implements ShipPart, Resource {
     }
 
     constructor(rd:ReactorData) {
+        super(rd.dryMass, rd.size)
         this.reactorData = rd;
         this.currentFuel = {
             name: "Uranium",

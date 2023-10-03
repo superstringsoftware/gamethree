@@ -54,7 +54,8 @@
     width: 192px;
     position: relative;
     border: solid 1px #115511;
-    opacity: 0.8;
+    opacity: 0.7;
+    cursor: pointer;
 }
 
 .ship-detail-drive {
@@ -73,3 +74,34 @@
 .ship-detail-computer {
     background-image: url("/lastspaceship/img/icon-computer.png");
 }
+
+
+.terminal-ship {
+    background-color: black;
+    background-image: radial-gradient(
+      rgba(0, 80, 0, 0.75), black 120%
+    );
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    padding: 2rem;
+    color: rgb(210, 255, 210);
+    font: 1.3rem Inconsolata, monospace;
+    text-shadow: 0 0 5px #C8C8C8;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(black, 0.15),
+        rgba(black, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+    }
+  }

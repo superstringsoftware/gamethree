@@ -31,15 +31,65 @@
  */
 
 import { ShipComputer } from "./Computers";
-import { FTLDrive, SublightDrive } from "./Drives";
+import { SublightDrive } from "./Drives";
 import { BaseReactor } from "./Reactors";
+import { Resource } from "./Resources";
+
+
+export type HullData = {
+    name: string,
+    description: string,
+    size: number,
+    sectors: number,
+    materials: Resource[],
+    dryMass: number,
+    pictures?: {
+        normal?: string,
+        icon?: string
+    }
+}
 
 export class Spaceship {
 
     reactors: BaseReactor[];
     sublightDrives: SublightDrive[];
-    ftlDrives: FTLDrive[];
+    //ftlDrives: FTLDrive[];
     computer?: ShipComputer;
     //weapons, armor, hullAUX, internalAUX
-
 }
+
+export const AllHullTypes : HullData[] = [
+    {
+        name: "Falcon",
+        description: "Reliable, albeit a bit dated, all-rounder",
+        size: 1,
+        sectors: 6,
+        materials: [{name:"Titanium"}],
+        dryMass: 100000,
+        pictures: {
+            normal: "/lastspaceship/ships/falcon01.png"
+        }
+    },
+    {
+        name: "Sparrow",
+        description: "Lightest nimblest starter ship",
+        size: 1,
+        sectors: 5,
+        materials: [{name:"Titanium"}],
+        dryMass: 55000,
+        pictures: {
+            normal: "/lastspaceship/ships/sparrow01.png"
+        }
+    },
+    {
+        name: "Ladybug",
+        description: "Heavier and bigger than other small ships, good for cargo hauling",
+        size: 1,
+        sectors: 8,
+        materials: [{name:"Titanium"}],
+        dryMass: 135000,
+        pictures: {
+            normal: "/lastspaceship/ships/ladybug01.png"
+        }
+    }
+]

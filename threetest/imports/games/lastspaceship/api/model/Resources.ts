@@ -4,8 +4,14 @@ export function mfmap<T>(f, x:Maybe<T>) {
     else return { just: f(x.just)}
 }
 
-export interface ShipPart {
+export abstract class ShipPart {
+    mass: number;
+    size: number;
 
+    constructor(m:number, s:number) {
+        this.mass = m;
+        this.size = s;
+    }
 }
 
 
