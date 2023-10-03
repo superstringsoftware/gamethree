@@ -1,23 +1,4 @@
-export type Maybe<T> = { just: T } | "nothing"
-export function mfmap<T>(f, x:Maybe<T>) {
-    if (x === "nothing") return "nothing"
-    else return { just: f(x.just)}
-}
-
-export type Resource = {
-    name: string,
-    quality?: number,
-    // current state of the thingy - whether we need to fix it
-    // 0 - 100
-    state?: number, 
-    quantity?: number,
-    // in case our thingy is comprised of other thingies - here's their list
-    compoundParts?: Resource[]
-}
-
-export interface ShipPart {
-
-}
+import { Resource, ShipPart } from "./Resources";
 
 export type ReactorData = {
     name: string,
@@ -30,8 +11,8 @@ export type ReactorData = {
     mc2coef: number, // %
 }
 
-export class UraniumReactor implements ShipPart, Resource {
-    name = "Uranium Reactor";
+export class BaseReactor implements ShipPart, Resource {
+    name = "Base Reactor";
     reactorData: ReactorData;
     currentFuel: Resource; // how much and what type of U is in
     
@@ -80,7 +61,7 @@ export class UraniumReactor implements ShipPart, Resource {
         const fl = 1 - fluct[0] + (fluct[1]-fluct[0])*Math.random()
         const pp = desP * fl * dt;
 
-        
+
 
         return pp;
     }

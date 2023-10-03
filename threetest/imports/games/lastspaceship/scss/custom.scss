@@ -14,14 +14,62 @@
     color: #33ff33;
 }
 
+.text-sci-fi-w {
+    font-family: Orbitron;
+    text-shadow: #eeeeee 2px 1px 5px;
+    color: #ffffff;
+}
+
+.text-sci-fi-g {
+    font-family: Orbitron;
+    text-shadow: #999999 2px 1px 5px;
+    color: #cccccc;
+}
+
 .two-image-stacked {
     
     background-image: url("/lastspaceship/img/reactor1-off.png"), url("/lastspaceship/img/reactor1.png");
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-blend-mode: lighten;
-    height: 476px;
-    width: 476px;
+    min-height: 476px;
+    //width: 476px;
     position: relative;
     //border: solid 1px white
+}
+
+.ship-box {
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 384px;
+    width: 384px;
+    border: solid 1px #115511;
+    opacity: 1;
+}
+
+.ship-detail-box {
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 192px;
+    width: 192px;
+    position: relative;
+    border: solid 1px #115511;
+    opacity: 0.8;
+}
+
+.ship-detail-drive {
+    background-image: url("/lastspaceship/img/icon-drive.png");
+}
+
+.ship-detail-ftl {
+    background-image: url("/lastspaceship/img/icon-ftl.png");
+}
+
+
+.ship-detail-reactor {
+    background-image: url("/lastspaceship/img/icon-reactor.png");
+}
+
+.ship-detail-computer {
+    background-image: url("/lastspaceship/img/icon-computer.png");
 }

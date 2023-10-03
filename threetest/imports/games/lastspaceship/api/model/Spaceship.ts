@@ -29,3 +29,17 @@
  * 
  * - Higgs bozon beams: changing masses of particles with some crazy results
  */
+
+import { ShipComputer } from "./Computers";
+import { FTLDrive, SublightDrive } from "./Drives";
+import { BaseReactor } from "./Reactors";
+
+export class Spaceship {
+
+    reactors: BaseReactor[];
+    sublightDrives: SublightDrive[];
+    ftlDrives: FTLDrive[];
+    computer?: ShipComputer;
+    //weapons, armor, hullAUX, internalAUX
+
+}

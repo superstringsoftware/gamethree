@@ -14,7 +14,7 @@ export const GameLastSS = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+      <nav className="navbar navbar-expand-md bg-dark" data-bs-theme="dark">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -34,48 +34,6 @@ export const GameLastSS = () => {
                 <i className="fa-thin fa-gear" style={{color: "#0eff4c"}}></i>
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Features
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Pricing
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  About
-                </a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  href="#"
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </a>
-                <div className="dropdown-menu">
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                  <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#">
-                    Separated link
-                  </a>
-                </div>
-              </li>
             </ul>
            </div>
         </div>
@@ -83,49 +41,94 @@ export const GameLastSS = () => {
 
       <Container fluid>
         <Row className="mt-4">
-          <Col xl={4} lg={6} md={6} sm={12}>
+          <Col xl={{span: 4, offset: 4}}
+               lg={{span: 6, offset: 3}}
+               md={{span: 8, offset: 2}}
+               sm={{span: 12}} >
+                   <Row>
           <span className="text-sci-fi">this is your reactor</span>
               <div className="two-image-stacked">
-              <div style={{position:"absolute", bottom: "8px", left: "8px",
-                width: "70px",height: "70px", border:"solid 1px #55ff55",
+              </div>
+              </Row>
+              <Row>
+                  <Col sm={2} style={{border:"solid 1px #55ff55",
                 boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
                 className="text-center align-items-center">
-             <span className="text-sci-fi">fuel</span>
-          </div>
-          <div style={{position:"absolute", bottom: "8px", left: "86px",
-                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                    <span className="text-sci-fi">fuel</span>
+                </Col>
+                <Col sm={2} style={{border:"solid 1px #55ff55",
                 boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
                 className="text-center align-items-center">
                     <span className="text-sci-fi">rods</span>
-          </div>
-          <div style={{position:"absolute", bottom: "8px", left: "164px",
-                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                </Col>
+                <Col sm={2} style={{border:"solid 1px #55ff55",
                 boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
                 className="text-center align-items-center">
                     <span className="text-sci-fi">cool</span>
-          </div>
-          <div style={{position:"absolute", bottom: "8px", left: "242px",
-                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                </Col>
+                <Col sm={2} style={{border:"solid 1px #55ff55",
                 boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
                 className="text-center align-items-center">
                     <span className="text-sci-fi">hull</span>
-          </div>
-          <div style={{position:"absolute", bottom: "8px", left: "320px",
-                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                </Col>
+                <Col sm={2} style={{border:"solid 1px #55ff55",
                 boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
                 className="text-center align-items-center">
                     <span className="text-sci-fi">comp</span>
-          </div>
-          <div style={{position:"absolute", bottom: "8px", left: "398px",
-                width: "70px",height: "70px", border:"solid 1px #55ff55",
+                </Col>
+                <Col sm={2} style={{border:"solid 1px #55ff55",
                 boxShadow: "0 0 10px 2px #55ff55", background: "black"}}
                 className="text-center align-items-center">
                     <span className="text-sci-fi">powr</span>
-          </div>
-              </div>
+                </Col>
+              </Row>
           </Col>
+
+          
+              
           
           
+        </Row>
+        <Row className="mt-4">
+            <Col xl={{span: 2, offset: 2}}
+               lg={{span: 2, offset: 1}}
+               md={{span: 4}}
+               sm={{span: 12}}>
+                   <Row className="ship-detail-box ship-detail-drive">
+                       <span className="text-sci-fi">
+                           drive
+                       </span>
+                   </Row>
+                   <Row className="ship-detail-box ship-detail-reactor">
+                       <span className="text-sci-fi">
+                           reactor
+                       </span>
+                   </Row>
+                   
+            </Col>
+            <Col xl={{span: 4}}
+               lg={{span: 6}}
+               md={{span: 8}}
+               sm={{span: 12}} className="ship-box" >
+                   <img src="/lastspaceship/ships/falcon01.png"
+                   width="100%" height="100%" />
+            </Col>
+            <Col xl={{span: 2}}
+               lg={{span: 2}}
+               md={{span: 4}}
+               sm={{span: 12}}>
+                   <Row className="ship-detail-box ship-detail-ftl">
+                       <span className="text-sci-fi">
+                           ftl drive
+                       </span>
+                   </Row>
+                   <Row className="ship-detail-box ship-detail-computer">
+                       <span className="text-sci-fi">
+                           computer
+                       </span>
+                   </Row>
+                   
+            </Col>
         </Row>
       </Container>
       
