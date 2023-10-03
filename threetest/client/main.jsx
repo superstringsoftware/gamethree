@@ -11,6 +11,7 @@ import { GameAntares } from '/imports/games/antares/ui/GameAntares';
 import { Terminal } from '../imports/meterm/Terminal';
 import { GameLastSS } from '/imports/games/lastspaceship/ui/GameLastSS';
 import { ShipSetup } from '/imports/games/lastspaceship/ui/ShipSetup';
+import { ReactorSetup } from '/imports/games/lastspaceship/ui/ReactorSetup';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/ship",
     element: <ShipSetup />,
+  },
+  {
+    path: "/ship/reactor",
+    element: <ReactorSetup />,
   },
   {
     path: "/antares",

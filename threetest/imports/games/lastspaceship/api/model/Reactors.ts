@@ -9,7 +9,11 @@ export type ReactorData = {
     minPower: number, // MW
     maxPower: number,
     mc2coef: number, // %
-    dryMass: number
+    dryMass: number,
+    pictures?: {
+        normal?: string,
+        icon?: string
+    }
 }
 
 export class BaseReactor extends ShipPart implements Resource {
@@ -68,3 +72,48 @@ export class BaseReactor extends ShipPart implements Resource {
         return pp;
     }
 }
+
+export const AllReactorData : ReactorData[] = [
+    {
+        name: "RDBN-34 Fission",
+        description: "Your basic day to day uranium powered workhorse",
+        size: 1,
+        fuelStorage: 500, // kg
+        fuelType: [{name:"Uranium"}],
+        minPower: 1, // MW
+        maxPower: 1000,
+        mc2coef: 0.07, // %
+        dryMass: 57000,
+        pictures: {
+            normal: "/lastspaceship/img/reactor1.png" 
+        }
+    },
+    {
+        name: "TKMK-M2 Fusion",
+        description: "Ultimate in Fusion Power, Tokamak design assisted by lasers",
+        size: 4,
+        fuelStorage: 500, // kg
+        fuelType: [{name:"Helium"}],
+        minPower: 1, // MW
+        maxPower: 1000000,
+        mc2coef: 1.5, // %
+        dryMass: 357000,
+        pictures: {
+            normal: "/lastspaceship/img/reactor4.png" 
+        }
+    },
+    {
+        name: "QGP-7 Gluon",
+        description: "Harnessing ultimate Quark-Gluon binding energy splitting protons themselves",
+        size: 1,
+        fuelStorage: 500, // kg
+        fuelType: [{name:"Helium"},{name:"Hydrogen"}],
+        minPower: 1000, // MW
+        maxPower: 1000000000,
+        mc2coef: 37, // %
+        dryMass: 87000,
+        pictures: {
+            normal: "/lastspaceship/img/reactor2.png" 
+        }
+    }
+]
