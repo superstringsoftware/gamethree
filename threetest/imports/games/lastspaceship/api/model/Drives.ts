@@ -49,7 +49,11 @@ export type JetDriveData = {
     massPerSec: number, // maximum fuel mass spend per second,
     Vex: number, // maximum exhaust velocity
     efficiency: number, // 0..1 conversion from power gen to energy of the jet
-    dryMass: number
+    dryMass: number,
+    pictures?: {
+        normal?: string,
+        icon?: string
+    }
 }
 
 export abstract class SublightDrive extends ShipPart implements Resource {
@@ -116,7 +120,10 @@ export const AllJetDriveTypes : JetDriveData[] = [
         massPerSec: 10, // maximum fuel mass spend per second,
         Vex: 1000000, // maximum exhaust speed 
         efficiency: 0.65, // 0..1 conversion from power gen to energy of the jet
-        dryMass: 20000
+        dryMass: 20000,
+        pictures: {
+            normal: "/lastspaceship/drives/johnsonfm3.png"
+        }
     },
     {
         name: "General Atomic AA",
@@ -127,6 +134,9 @@ export const AllJetDriveTypes : JetDriveData[] = [
         massPerSec: 10, // maximum fuel mass spend per second,
         Vex: 2500000, // maximum exhaust speed 
         efficiency: 0.72, // 0..1 conversion from power gen to energy of the jet
-        dryMass: 35000
+        dryMass: 35000,
+        pictures: {
+            normal: "/lastspaceship/drives/gaaa.png"
+        }
     }
 ]
