@@ -12,19 +12,21 @@ import { Terminal } from '../imports/meterm/Terminal';
 import { GameLastSS } from '/imports/games/lastspaceship/ui/GameLastSS';
 import { ShipSetup } from '/imports/games/lastspaceship/ui/ShipSetup';
 import { ReactorSetup } from '/imports/games/lastspaceship/ui/ReactorSetup';
+import { ShipSetupNeu } from '/imports/games/lastspaceship/ui/ShipSetupNeu';
+import { Main } from '/imports/games/lastspaceship/ui/Main';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <GameLastSS />,
+    element: <Main />,
   },
   {
     path: "/ship",
     element: <ShipSetup />,
   },
   {
-    path: "/ship/reactor",
-    element: <ReactorSetup />,
+    path: "/shipn",
+    element: <ShipSetupNeu />,
   },
   {
     path: "/antares",

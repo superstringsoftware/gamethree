@@ -9,14 +9,11 @@ const hulls = AllHullTypes
 
 const humanSizes = ["tiny", "small", "medium", "large", "huge"]
 
-export const ShipSetup = () => {
+export const ShipSetupNeu = () => {
 
     const [selSh, setSelSh] = useState(0)
     const navigate = useNavigate();
-    useEffect(()=> {
-        document.body.classList.add('terminal-ship');
-    }, [])
-
+    
     const [uiState, setUIState] = useState("ship")
 
     const [activeReactor, setActiveReactor] = useState<ReactorData | null>(null)
@@ -37,7 +34,7 @@ export const ShipSetup = () => {
                lg={{span: 2}}
                md={{span: 4}}
                sm={{span: 12}} >
-                   <span className="text-sci-fi">
+                   <span className="text-sci-fi-o">
                        pick the hull:
                    </span>
                    
@@ -46,10 +43,10 @@ export const ShipSetup = () => {
                lg={{span: 2}}
                md={{span: 4}}
                sm={{span: 12}}>
-                   <span className="text-sci-fi">hull type:</span><br/>
-                   <span className="text-sci-fi">hull size:</span><br/>
-                   <span className="text-sci-fi">hull material:</span><br/>
-                   <span className="text-sci-fi">dry mass:</span><br/>
+                   <span className="text-sci-fi-o">hull type:</span><br/>
+                   <span className="text-sci-fi-o">hull size:</span><br/>
+                   <span className="text-sci-fi-o">hull material:</span><br/>
+                   <span className="text-sci-fi-o">dry mass:</span><br/>
                    
             </Col>
             <Col xl={{span: 2}}
@@ -81,7 +78,7 @@ export const ShipSetup = () => {
                        return <li className={cls} key={i}>
                            <a href="#" onClick={()=>{ setSelSh(i);
                             setActiveReactor(null)
-                            }} className="text-sci-fi">
+                            }} className="text-sci-fi-o">
                                {h.name}</a></li>
                    })}
       

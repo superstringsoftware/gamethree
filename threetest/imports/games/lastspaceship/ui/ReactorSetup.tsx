@@ -86,22 +86,6 @@ export const ReactorSetup = (props: {
   
 </ul>
            </Col>
-        <Col xl={{span: 2}}
-           lg={{span: 2}}
-           md={{span: 4}}
-           sm={{span: 12}}>
-               <Row className="ship-detail-box ship-detail-drive">
-                   <span className="text-sci-fi-g">
-                       sublight drive
-                   </span>
-               </Row>
-               <Row className="ship-detail-box ship-detail-reactor">
-                   <span className="text-sci-fi-g">
-                       reactor
-                   </span>
-               </Row>
-               
-        </Col>
         <Col xl={{span: 4}}
            lg={{span: 6}}
            md={{span: 8}}
@@ -113,25 +97,19 @@ export const ReactorSetup = (props: {
            lg={{span: 2}}
            md={{span: 4}}
            sm={{span: 12}}>
-               <Row className="ship-detail-box ship-detail-ftl">
-                   <span className="text-sci-fi-g">
-                       ftl drive
-                   </span>
-               </Row>
-               <Row className="ship-detail-box ship-detail-computer">
-                   <span className="text-sci-fi-g">
-                       computer
-                   </span>
-               </Row>
                
         </Col>
     </Row>
     <Row className="mt-4">
+    <Col xl={{span: 2}}
+           lg={{span: 2}}
+           md={{span: 4}}
+           sm={{span: 12}}></Col>
         <Col>
         <Button variant="outline-success text-sci-fi"
         onClick={()=>props.onPick(hulls[selSh])}>
-            confirm</Button>&nbsp;
-            <Button variant="outline-warning text-sci-fi"
+            install</Button>&nbsp;
+            <Button variant="outline-warning text-sci-fi-any"
         onClick={()=>props.onCancel()}>
             cancel</Button>
         </Col>

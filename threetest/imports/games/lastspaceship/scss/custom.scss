@@ -14,16 +14,27 @@
     color: #33ff33;
 }
 
+.text-sci-fi-any {
+    font-family: Orbitron;
+    text-shadow: #999999 2px 1px 5px;
+}
+
 .text-sci-fi-w {
     font-family: Orbitron;
-    text-shadow: #eeeeee 2px 1px 5px;
+    //text-shadow: #eeeeee 2px 1px 5px;
     color: #ffffff;
 }
 
 .text-sci-fi-g {
     font-family: Orbitron;
-    text-shadow: #999999 2px 1px 5px;
+    //text-shadow: #999999 2px 1px 5px;
     color: #cccccc;
+}
+
+.text-sci-fi-o {
+    font-family: Orbitron;
+    //text-shadow: rgb(248, 187, 133) 1px 0px 2px;
+    color: rgb(247, 183, 65);
 }
 
 .two-image-stacked {
@@ -43,7 +54,7 @@
     background-repeat: no-repeat;
     height: 384px;
     width: 384px;
-    border: solid 1px #115511;
+    //border: solid 1px #115511;
     opacity: 1;
 }
 
@@ -53,7 +64,7 @@
     height: 192px;
     width: 192px;
     position: relative;
-    border: solid 1px #115511;
+    //border: solid 1px #115511;
     opacity: 0.7;
     cursor: pointer;
 }
@@ -104,4 +115,14 @@
       );
       pointer-events: none;
     }
+  }
+
+  .neu-1 {
+    border-radius: 25px;
+    background: linear-gradient(225deg, #161616, #2a2a2a);
+//background: #202020;
+height: 94vh;
+margin-top: 3vh;
+box-shadow:  -19px 19px 38px #161616,
+             19px -19px 38px #2a2a2a;
   }
