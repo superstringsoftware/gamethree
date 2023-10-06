@@ -16,7 +16,7 @@
 
 .text-sci-fi-any {
     font-family: Orbitron;
-    text-shadow: #999999 2px 1px 5px;
+    //text-shadow: #999999 2px 1px 5px;
 }
 
 .text-sci-fi-w {
@@ -34,7 +34,7 @@
 .text-sci-fi-o {
     font-family: Orbitron;
     //text-shadow: rgb(248, 187, 133) 1px 0px 2px;
-    color: rgb(247, 183, 65);
+    color: $orange;//rgb(247, 183, 65);
 }
 
 .two-image-stacked {
@@ -126,3 +126,25 @@ margin-top: 3vh;
 box-shadow:  -19px 19px 38px #161616,
              19px -19px 38px #2a2a2a;
   }
+
+  input.neu-2,
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus,
+  input.neu-2:-internal-autofill-selected  {
+    border-radius: 8px;
+background: #202020 !important;
+box-shadow: inset -6px 6px 12px #040404,
+            inset 6px -6px 12px #3c3c3c;
+    padding: 8px;
+    width: 100%;
+    border: none;
+    font-family: Orbitron !important;
+    color: orange !important;
+  }
+
+  .neu-2:focus {
+      outline: 1px dashed orange;
+  }
+
+  

@@ -30,6 +30,7 @@
  * - Higgs bozon beams: changing masses of particles with some crazy results
  */
 
+import { Orbiting } from "./Astro";
 import { ShipComputer } from "./Computers";
 import { SublightDrive } from "./Drives";
 import { BaseReactor } from "./Reactors";
@@ -49,13 +50,54 @@ export type HullData = {
     }
 }
 
-export class Spaceship {
+export class Spaceship extends Orbiting {
 
+    // main data
+    hd: HullData;
+    transponder: string;
+    shipName: string;
+    description: string;
+
+    // decart parameters
+    x:number = 0;
+    y:number = 0;
+    vx: number = 0;
+    vy: number = 0;
+
+    thrust: number = 0;
+    thrustAngle: number = 0;
+
+    // components
     reactors: BaseReactor[];
     sublightDrives: SublightDrive[];
     //ftlDrives: FTLDrive[];
     computer?: ShipComputer;
     //weapons, armor, hullAUX, internalAUX
+
+    constructor(props: {
+        hullData:HullData,
+        transponder: string,
+        shipName: string,
+        description?: string
+    }) {
+        // no orbit params and no parent
+        super(null,null)
+        this.hd = props.hullData
+        this.transponder = props.transponder
+        this.shipName = props.shipName
+        this.description = props.description? props.description : props.shipName
+
+        this.reactors= []
+        this.sublightDrives = []
+    }
+
+    toDecart(global:boolean):{x:number,y:number} {
+        const res = super.toDecart(global);
+        this.x = res.x
+        this.y = res.y
+        return res
+    }
+
 }
 
 export const AllHullTypes : HullData[] = [
@@ -91,5 +133,16 @@ export const AllHullTypes : HullData[] = [
         pictures: {
             normal: "/lastspaceship/ships/ladybug01.png"
         }
-    }
+    },
+    {
+        name: "Station1",
+        description: "Orbiting station around the planets, med size",
+        size: 3,
+        sectors: 20,
+        materials: [{name:"Titanium"}],
+        dryMass: 500000,
+        pictures: {
+            normal: "/lastspaceship/ships/ladybug01.png"
+        }
+    },
 ]

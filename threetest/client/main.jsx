@@ -14,11 +14,23 @@ import { ShipSetup } from '/imports/games/lastspaceship/ui/ShipSetup';
 import { ReactorSetup } from '/imports/games/lastspaceship/ui/ReactorSetup';
 import { ShipSetupNeu } from '/imports/games/lastspaceship/ui/ShipSetupNeu';
 import { Main } from '/imports/games/lastspaceship/ui/Main';
+import { SignUp } from '/imports/games/lastspaceship/ui/SignUp';
+import { AstroView } from '/imports/games/lastspaceship/ui/AstroView';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    children: [
+      {
+        index: true,
+        element: <AstroView />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+      }
+    ]
   },
   {
     path: "/ship",
