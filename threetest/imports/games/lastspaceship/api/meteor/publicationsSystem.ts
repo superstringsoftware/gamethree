@@ -10,6 +10,10 @@ Meteor.publish("systemById", function(sid) {
     const star = ColAstrobodies.findOne({_id:sid})
     let cids = star.childrenIds.map(x=>x)
     cids.push(star._id)
+    star.childrenIds.forEach(cid=> {
+        const ob = ColAstrobodies.findOne({_id:cid})
+        cids = cids.concat(ob.childrenIds)
+    })
 
     const starObj = fromIAstroBodyData(star)
 
@@ -28,6 +32,13 @@ Meteor.publish("systemById", function(sid) {
                     $set: {
                         orbit: c.orbit
                     }
+                })
+                c.children.forEach(c1 => {
+                    ColAstrobodies.update({_id:c1._id}, {
+                        $set: {
+                            orbit: c1.orbit
+                        }
+                    })  
                 })  
             })
         },updateInterval)

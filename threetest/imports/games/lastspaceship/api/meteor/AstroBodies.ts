@@ -35,6 +35,14 @@ export const fromIAstroBodyData = (ib:IAstroBodyData) => {
         cb._id = cid
         star.addChild(cb, cb.orbit.radius, cb.orbit.curAngle)
         cb.parent = star
+        c.childrenIds.forEach(cid1 => {
+            const c = ColAstrobodies.findOne({_id: cid1})
+            //console.log(c)
+            const cb1 = new AstroBody(c)
+            cb1._id = cid1
+            cb.addChild(cb1, cb1.orbit.radius, cb1.orbit.curAngle)
+            cb1.parent = cb
+        })
     })
     return star;
 }

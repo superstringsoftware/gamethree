@@ -32,6 +32,7 @@ export const AstroView = () => {
     //if (ae == null) return null;
 
     const earth = useFind(()=>ColAstrobodies.find({name: "Earth"}))[0]
+    const moon = useFind(()=>ColAstrobodies.find({name: "The Moon"}))[0]
     //console.log(earth)
 
     //useEffect(()=>document.body.classList.add("terminal-ship"), [])
@@ -202,7 +203,8 @@ export const AstroView = () => {
           <Col sm={12} md={6} lg={4} xl={3}><h4>stuff</h4>
           Scale: {scale}<br/>
           Time scale: {timeScale}<br/><br/>
-          Earth: {earth?.orbit?.curAngle}
+          Earth: {earth?.orbit?.curAngle}<br/>
+          Moon: {moon?.orbit?.curAngle}
           </Col>
           <Col sm={12} md={6} lg={8} xl={9} ref={ref} style={{height: "90vh"}}>
     <div id="cont" style={{
