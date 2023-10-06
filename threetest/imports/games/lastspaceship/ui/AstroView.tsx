@@ -72,6 +72,8 @@ export const AstroView = () => {
     const [height, setHeight] = useState(0);
     const ref = useRef(null)
 
+    //useEffect(()=>document.body.classList.add("terminal-ship"), [])
+
   useLayoutEffect(() => {
     setWidth(ref.current.offsetWidth);
     setHeight(ref.current.offsetHeight);
@@ -112,7 +114,7 @@ export const AstroView = () => {
           var layer = new Konva.Layer();
 
           
-          const centralRad = 10
+          const centralRad = 100
 
           const chld = ae.children.map( c => {
               console.log(c.constructor.name)
