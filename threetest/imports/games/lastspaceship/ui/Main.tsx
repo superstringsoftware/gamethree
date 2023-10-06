@@ -16,7 +16,7 @@ export const Main = () => {
   useEffect(()=>document.body.classList.add("terminal-ship"),[])
 
   return (
-    <Container fluid={"xl"} className="py-2">
+    <Container fluid className="py-2">
       <Row
         className="text-sci-fi-o py-3 px-4"
       >{u?<span>{u.username}</span> :

@@ -52,6 +52,9 @@ export type HullData = {
 
 export class Spaceship extends Orbiting {
 
+    //_id?: string;
+    ownerId?: string;
+
     // main data
     hd: HullData;
     transponder: string;

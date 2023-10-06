@@ -8,6 +8,8 @@ export type OrbitParams = {
 }
 
 export class Orbiting {
+    _id?: string;
+    parentId?: string
     parent?: Orbiting
     orbit: OrbitParams
     children: Orbiting[]
@@ -30,6 +32,7 @@ export class Orbiting {
     advanceOrbit(t:number) {
         if (this.parent) {
             this.orbit.curAngle += this.orbit.Omega * t;
+            if (this.orbit.curAngle > 2*Math.PI) this.orbit.curAngle -= 2*Math.PI
         }
         this.children.forEach(c => c.advanceOrbit(t))
     }

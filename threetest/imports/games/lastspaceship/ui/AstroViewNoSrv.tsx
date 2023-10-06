@@ -12,12 +12,65 @@ import { AstroBody } from "../api/model/Astro";
 import { AllHullTypes, Spaceship } from "../api/model/Spaceship";
 
 import {useSubscribe, useFind} from 'meteor/react-meteor-data'
-import { ColAstrobodies, fromIAstroBodyData } from "../api/meteor/AstroBodies";
+import { ColAstrobodies } from "../api/meteor/AstroBodies";
 
 
+let AstroEarth = new AstroBody({
+    name: "Earth",
+    mass: 5.972e24,
+    radius: 6370000
+})
 
+AstroEarth.addChild(new AstroBody({
+    name: "Moon",
+    mass: 7.347e22,
+    radius: 1730000
+}), 384000000,0)
 
-export const AstroView = () => {
+console.log(AllHullTypes)
+
+var _station1 = new Spaceship({hullData:AllHullTypes[3],
+transponder: "M-F41", shipName:"Nicole",
+description: "Battlestar orbiting the planet for base protection" })
+
+var _station2 = new Spaceship({hullData:AllHullTypes[2],
+    transponder: "M-OF317", shipName:"Jo-4",
+    description: "Communications satellite for the military" })
+    
+var _station3 = new Spaceship({hullData:AllHullTypes[0],
+    transponder: "P-219", shipName:"Merger",
+    description: "Police patrol ship" })
+
+AstroEarth.addChild(_station1, 7370000, Math.PI / 17)
+AstroEarth.addChild(_station2, 16400000, Math.PI / 2.7)
+AstroEarth.addChild(_station3, 8520000, -Math.PI / 3.4)
+
+let sun = new AstroBody({
+    name: "Sun",
+    mass: 2e30,
+    radius: 696340000
+})
+
+sun.addChild(AstroEarth, 150000000000, 0)
+sun.addChild(new AstroBody({
+    name: "Mercury",
+    mass: 3.285e23,
+    radius: 2440000
+}), 52000000000, -1.2)
+sun.addChild(new AstroBody({
+    name: "Venus",
+    mass: 4.86e24,
+    radius: 6051000
+}), 108000000000, -1.9)
+sun.addChild(new AstroBody({
+    name: "Mars",
+    mass: 0.64e24,
+    radius: 3380000
+}), 239000000000, 2)
+
+const ae = AstroEarth//sun//AstroEarth
+
+export const AstroViewNoSrv = () => {
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const ref = useRef(null)
@@ -25,29 +78,21 @@ export const AstroView = () => {
     const [timeScale, setTimeScale] = useState(0.1)
 
     const sysLoading = useSubscribe("systemById", 'BzAcNRzxTnuCQTbba')
-    const star = useFind(()=>ColAstrobodies.find({_id:'BzAcNRzxTnuCQTbba'}), [])
-    console.log(star)
-
-    const ae = (star.length > 0) ? fromIAstroBodyData(star[0]) : null
-    //if (ae == null) return null;
-
-    const earth = useFind(()=>ColAstrobodies.find({name: "Earth"}))[0]
-    //console.log(earth)
+    const bodies = useFind(()=>ColAstrobodies.find({}), [])
+    console.log(bodies)
 
     //useEffect(()=>document.body.classList.add("terminal-ship"), [])
 
   useLayoutEffect(() => {
     setWidth(ref.current.offsetWidth);
     setHeight(ref.current.offsetHeight);
+    setScale(ae.children[0].orbit.radius * 1.2 /( Math.min(width,height) / 2))
+    
   }, []);
-
-  useEffect(()=> {
-    if (ae) setScale(ae?.children[0].orbit.radius * 1.2 /( Math.min(width,height) / 2))
-  }, [star])
 
   const canvasRef = useRef(null);
 
-  const [scale, setScale] = useState(1)
+  const [scale, setScale] = useState(ae.children[0].orbit.radius * 1.2 /( Math.min(width,height) / 2))
 
   const handleKeys = (e)=> {
     console.log(e.key)
@@ -64,15 +109,12 @@ export const AstroView = () => {
 
   
 
-  //console.log(ae?.children[0].orbit)
+  //console.log(ae.children[0].orbit)
     
     useEffect(() => {
-        if (ae === null) return
         //i.e. value other than null or undefined
         console.log("Calculated: ", width, height)
-        console.log(ae)
-        console.log(scale)
-        //setScale(ae?.children[0].orbit.radius * 1.2 /( Math.min(width,height) / 2))
+        //setScale(ae.children[0].orbit.radius * 1.2 /( Math.min(width,height) / 2))
 
         window.addEventListener("keydown", handleKeys);
         var stage = new Konva.Stage({
@@ -87,7 +129,7 @@ export const AstroView = () => {
           
           const centralRad = 100
 
-          const chld = ae?.children.map( c => {
+          const chld = ae.children.map( c => {
               //console.log(c.constructor.name)
               switch (c.constructor.name) {
                   case AstroBody.name:
@@ -116,7 +158,7 @@ export const AstroView = () => {
 
           const txt = []
           chld.forEach((g,i) => {
-              const c = ae?.children[i];
+              const c = ae.children[i];
             switch (c.constructor.name) {
                 case AstroBody.name: 
                 txt.push(new Konva.Text({
@@ -156,11 +198,11 @@ export const AstroView = () => {
           const earth = new Konva.Circle({
             x: stage.width() / 2,
             y: stage.height() / 2,
-            radius: ae?.radius / scale,
+            radius: ae.radius / scale,
             fillRadialGradientStartPoint: { x: 0, y: 0 },
           fillRadialGradientStartRadius: 0,
           fillRadialGradientEndPoint: { x: 0, y: 0 },
-          fillRadialGradientEndRadius: ae?.radius / scale,
+          fillRadialGradientEndRadius: ae.radius / scale,
           fillRadialGradientColorStops: [0, 'green', 0.5, '#33ff33', 1, '#33eeee'],
             stroke: 'blue',
             strokeWidth: 1,
@@ -174,13 +216,13 @@ export const AstroView = () => {
     
           var anim = new Konva.Animation(function (frame) {
               if ((scale === 0) || (!isFinite(scale))) {
-                  setScale(ae?.children[0].orbit.radius * 1.2 /( Math.min(width,height) / 2))
+                  setScale(ae.children[0].orbit.radius * 1.2 /( Math.min(width,height) / 2))
               }
-            ae?.advanceOrbit(frame.timeDiff * timeScale);
+            ae.advanceOrbit(frame.timeDiff * timeScale);
 
-            //console.log("Current angle", ae?.children[0].orbit.curAngle)
+            //console.log("Current angle", ae.children[0].orbit.curAngle)
             chld.forEach( (g,i) => {
-                const c = ae?.children[i]
+                const c = ae.children[i]
                 g.x(stage.width() / 2 + (Math.cos(c.orbit.curAngle)*c.orbit.radius)/scale)
                 g.y(stage.height() / 2 - (Math.sin(c.orbit.curAngle)*c.orbit.radius)/scale)
                 txt[i].x(g.x()+6)
@@ -195,14 +237,13 @@ export const AstroView = () => {
             anim.stop()
             window.removeEventListener("keydown", handleKeys);
         };
-    }, [width, height, scale, timeScale, star, earth]);
+    }, [width, height, scale, timeScale]);
 
   return (
       <Row >
           <Col sm={12} md={6} lg={4} xl={3}><h4>stuff</h4>
           Scale: {scale}<br/>
-          Time scale: {timeScale}<br/><br/>
-          Earth: {earth?.orbit?.curAngle}
+          Time scale: {timeScale}
           </Col>
           <Col sm={12} md={6} lg={8} xl={9} ref={ref} style={{height: "90vh"}}>
     <div id="cont" style={{

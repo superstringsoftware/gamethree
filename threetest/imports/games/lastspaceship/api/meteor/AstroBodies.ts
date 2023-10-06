@@ -1,0 +1,42 @@
+import { AstroBody, OrbitParams } from "../model/Astro";
+
+
+/**
+ * The idea is - all astronomic bodies must be orbiting something
+ * Ships can also free fly
+ * From this persistent info we setup systems inside the model
+ */
+export interface IAstroBodyData {
+    _id?: string,
+    code: string,
+    name: string,
+    description: string,
+    type: "star" | "planet" | "moon" | "asteroid",
+    parentId?: string, // id of where we are orbiting around
+    // decart coordinates in the galaxy, for STARS and their level objects only
+    galX?: number,
+    galY?: number,
+    radius: number,
+    mass: number,
+    childrenIds: string[], // if has children orbiting bodies - them
+    orbit?: OrbitParams,
+    currentShipIds: string[], // current ships either in orbit or free movement
+}
+
+export const fromIAstroBodyData = (ib:IAstroBodyData) => {
+    const star = new AstroBody(ib)
+    //console.log(ib)
+    star._id = ib._id
+    //console.log(star)
+    ib.childrenIds.forEach(cid => {
+        const c = ColAstrobodies.findOne({_id: cid})
+        //console.log(c)
+        const cb = new AstroBody(c)
+        cb._id = cid
+        star.addChild(cb, cb.orbit.radius, cb.orbit.curAngle)
+        cb.parent = star
+    })
+    return star;
+}
+
+export const ColAstrobodies = new Mongo.Collection<IAstroBodyData>("astrobodies")
