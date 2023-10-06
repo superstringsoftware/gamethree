@@ -65,7 +65,7 @@ sun.addChild(new AstroBody({
     radius: 3380000
 }), 239000000000, 2)
 
-const ae = sun//AstroEarth
+const ae = AstroEarth//sun//AstroEarth
 
 export const AstroView = () => {
     const [width, setWidth] = useState(0);
@@ -95,6 +95,8 @@ export const AstroView = () => {
     }
     
   }
+
+  
 
   //console.log(ae.children[0].orbit)
     
@@ -201,9 +203,12 @@ export const AstroView = () => {
           
           stage.add(layer);
     
-          const timeScale = 100;
+          const timeScale = 0.1;
           
           var anim = new Konva.Animation(function (frame) {
+              if ((scale === 0) || (!isFinite(scale)) {
+                  setScale(ae.children[0].orbit.radius * 1.2 /( Math.min(width,height) / 2))
+              }
             ae.advanceOrbit(frame.timeDiff * timeScale);
 
             //console.log("Current angle", ae.children[0].orbit.curAngle)
@@ -226,11 +231,16 @@ export const AstroView = () => {
     }, [width, height, scale]);
 
   return (
-      <Row>
-          <Col sm={12} md={6} lg={4} xl={3}><h4>stuff</h4></Col>
-          <Col sm={12} md={6} lg={8} xl={9} ref={ref} 
-          style={{backgroundColor: "black"}}>
-    <div id="cont"></div>
+      <Row >
+          <Col sm={12} md={6} lg={4} xl={3}><h4>stuff</h4>
+          Scale: {scale}
+          </Col>
+          <Col sm={12} md={6} lg={8} xl={9} ref={ref} style={{height: "90vh"}}>
+    <div id="cont" style={{
+              border: "solid 2px #00cc00",
+              height: height,
+              width: width,
+          }} ></div>
   </Col>
   </Row>
   );
