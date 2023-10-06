@@ -58,6 +58,7 @@ export class Spaceship extends Orbiting {
     // main data
     hd: HullData;
     transponder: string;
+    transponderOn: boolean = true;
     shipName: string;
     description: string;
 
@@ -69,6 +70,11 @@ export class Spaceship extends Orbiting {
 
     thrust: number = 0;
     thrustAngle: number = 0;
+
+    // if in flight:
+    originId?: string; // astro body id
+    destinationId?: string; // astro body id
+    dockedWithId?: string; // if docked - id of the ship that docked with
 
     // components
     reactors: BaseReactor[];

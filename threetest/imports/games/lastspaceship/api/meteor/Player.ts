@@ -3,7 +3,9 @@ import { Spaceship } from '../model/Spaceship'
 
 export type Player = {
     name: string,
-    _id?: string
+    _id?: string,
+    currentShipId?: string,
+    ships?: string[]
 }
 
 declare module "meteor/meteor" {

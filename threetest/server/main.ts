@@ -124,16 +124,7 @@ const setupSolar = () => {
     childrenIds: [], // if has children orbiting bodies - them
     currentShipIds: [], // current ships either in orbit or free movement
   });
-  // adding planets to sun
-  ColAstrobodies.update(
-    { _id: sid },
-    {
-      $set: {
-        childrenIds: [mid, vid, eid, mrid],
-      },
-    }
-  );
-
+  
   // ships
   var _station1 = new Spaceship({
     hullData: AllHullTypes[3],
@@ -176,6 +167,21 @@ const s1 = ColShips.insert(_station1)
 const s2 = ColShips.insert(_station2)
 const s3 = ColShips.insert(_station3)
 
+var sh = new Spaceship({
+    hullData: AllHullTypes[0],
+    transponder: "PL-001",
+    shipName: "Rakhmaninoff",
+    description: "The ship that started it all",
+  });
+  sh.orbit = {
+    radius: 12340000,
+    curAngle: -0.25
+}
+sh.parentId = mnid
+sh.ownerId = 'GTqdJauTfyCuttBiD'
+
+const shid = ColShips.insert(sh)
+
 ColAstrobodies.update(
     { _id: eid },
     {
@@ -184,4 +190,26 @@ ColAstrobodies.update(
       },
     }
   );
+
+  ColAstrobodies.update(
+    { _id: mnid },
+    {
+      $set: {
+        currentShipIds: [shid],
+      },
+    }
+  );
+
+  // adding planets to sun
+  ColAstrobodies.update(
+    { _id: sid },
+    {
+      $set: {
+        childrenIds: [mid, vid, eid, mrid],
+        allChildrenIds: [mid, vid, eid, mrid, mnid],
+        allShipIds: [s1,s2,s3, shid]
+      },
+    }
+  );
+
 };

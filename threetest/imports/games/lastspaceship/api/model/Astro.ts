@@ -62,6 +62,19 @@ export class AstroBody extends Orbiting {
     }
 
 
+    findChildByName(nm:string):AstroBody {
+        //console.log("Looking for ", nm)
+        if (this.name === nm) return this
+        let ret = null
+        this.children.forEach(c=> {
+            //console.log("Looking in: ", c)
+            if ( (c as AstroBody).name === nm) ret = c
+            c.children.forEach(c1=> {
+                if ( (c1 as AstroBody).name === nm) ret = c1
+            })
+        })
+        return ret
+    }
     /**
      * 
      * @param body 

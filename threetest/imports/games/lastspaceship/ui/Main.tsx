@@ -5,13 +5,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Outlet } from "react-router-dom";
 
-import {useTracker} from 'meteor/react-meteor-data'
+import {useTracker, useSubscribe} from 'meteor/react-meteor-data'
 
 
 // full screen layout
 export const Main = () => {
   
   const u = useTracker(()=> Meteor.user(), [Meteor.userId()])
+  useSubscribe("userData")
 
   useEffect(()=>document.body.classList.add("terminal-ship"),[])
 
