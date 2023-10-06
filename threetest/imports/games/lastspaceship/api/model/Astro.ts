@@ -30,6 +30,7 @@ export class Orbiting {
     }
 
     advanceOrbit(t:number) {
+        //console.log("Advancing ", this.name)
         if (this.parent) {
             this.orbit.curAngle += this.orbit.Omega * t;
             if (this.orbit.curAngle > 2*Math.PI) this.orbit.curAngle -= 2*Math.PI
@@ -61,6 +62,23 @@ export class AstroBody extends Orbiting {
         this.gOnSurface = this.GM / this.radius / this.radius
     }
 
+    findShipByName(nm:string):Spaceship {
+        //console.log("Looking for ", nm)
+        let ret = null
+        this.children.forEach(c=> {
+            
+            if ( (c as Spaceship).shipName === nm) ret = c
+            c.children.forEach(c1=> {
+                
+                if ( (c1 as Spaceship).shipName === nm) ret = c1
+                c1.children.forEach(c2=> {
+                    
+                    if ( (c2 as Spaceship).shipName === nm) ret = c2
+                })
+            })
+        })
+        return ret
+    }
 
     findChildByName(nm:string):AstroBody {
         //console.log("Looking for ", nm)

@@ -174,10 +174,10 @@ var sh = new Spaceship({
     description: "The ship that started it all",
   });
   sh.orbit = {
-    radius: 12340000,
+    radius: 22340000,
     curAngle: -0.25
 }
-sh.parentId = mnid
+sh.parentId = eid
 sh.ownerId = 'GTqdJauTfyCuttBiD'
 
 const shid = ColShips.insert(sh)
@@ -186,11 +186,12 @@ ColAstrobodies.update(
     { _id: eid },
     {
       $set: {
-        currentShipIds: [s1,s2,s3],
+        currentShipIds: [s1,s2,s3, shid],
       },
     }
   );
 
+  /*
   ColAstrobodies.update(
     { _id: mnid },
     {
@@ -198,7 +199,7 @@ ColAstrobodies.update(
         currentShipIds: [shid],
       },
     }
-  );
+  );*/
 
   // adding planets to sun
   ColAstrobodies.update(
