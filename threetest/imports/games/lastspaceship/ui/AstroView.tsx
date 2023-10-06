@@ -216,14 +216,17 @@ export const AstroView = () => {
                       setScale(sys.children[0].orbit.radius * 3 /( Math.min(width,height) / 2))
                       }}>{star?.name}</a>
               </li>
-              {planets.map((p,i)=> <li className="list-group-item" key={i}>
+              {ae?.children.map((p,i)=> {
+              if (p.constructor.name === AstroBody.name) {
+              return <li className="list-group-item" key={i}>
               <a href="#" onClick={()=>{
                   const b = sys.findChildByName(p.name)
                   console.log("Found: ", b)
                   setae(b)
                   setScale(b.radius * 100 /( Math.min(width,height) / 2))
               }}>{p.name}</a>
-              </li>)}
+              </li>}
+            })}
           </ul>
           Scale: {scale}<br/>
           Time scale: {timeScale}
