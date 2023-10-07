@@ -2,6 +2,8 @@ import { IPlanetoidData, IStarSystemData } from "../../model/Astro/interfaces";
 import {Mongo} from 'meteor/mongo'
 import { Vector2g } from "../../model/Astro/Physics";
 import { StarSystem } from "../../model/Astro/StarSystem";
+import { AllHullTypes, IShipData } from "../../model/Ships/interfaces";
+import { ColPlayer, ColShips } from "../Player";
 
 
 export const ColStarsystems = new Mongo.Collection<IStarSystemData>("starsystems")
@@ -12,6 +14,7 @@ export const _createSolarSystem = () => {
     if (s) {
         ColPlanetoids.remove({_id:{$in: s.planetoidIds}})
         ColStarsystems.remove({_id:s._id})
+        ColShips.remove({_id: {$in: s.shipIds}})
     }
     let sol:IStarSystemData = {
         code: "S0000001",
@@ -113,6 +116,78 @@ export const _createSolarSystem = () => {
     ColStarsystems.update({_id:sol._id}, {
         $set: {
             planetoidIds:[mercury._id, venus._id, earth._id, mars._id, moon._id ]
+        }
+    })
+
+    const sh1:IShipData = {
+        hd:AllHullTypes[0],
+        transponder: "P-F342",
+        transponderOn: true,
+        name: "Christelle",
+        description: "Standard police patrol ship",
+        mass: 250000,
+        orbit: StarSystem.calculateOrbitParams(
+            earth,
+            17249000,
+            1,
+            true
+          )
+    }
+    const sh2:IShipData = {
+        hd:AllHullTypes[1],
+        transponder: "M-F342",
+        transponderOn: true,
+        name: "Faster",
+        description: "Military corvette",
+        mass: 475000,
+        orbit: StarSystem.calculateOrbitParams(
+            earth,
+            25549000,
+            -0.4,
+            false
+          )
+    }
+    const sh3:IShipData = {
+        hd:AllHullTypes[3],
+        transponder: "S-18",
+        transponderOn: true,
+        name: "Elephant",
+        description: "Main docking station",
+        mass: 1475000,
+        orbit: StarSystem.calculateOrbitParams(
+            earth,
+            9549000,
+            -0.9,
+            false
+          )
+    }
+    const sh:IShipData = {
+        ownerId: 'GTqdJauTfyCuttBiD',
+        hd:AllHullTypes[2],
+        transponder: "PL-001",
+        transponderOn: true,
+        name: "Rakhmaninoff",
+        description: "The ship that started it all",
+        mass: 150000,
+        orbit: StarSystem.calculateOrbitParams(
+            earth,
+            39549000,
+            2,
+            false
+          )
+    }
+    sh._id = ColShips.insert(sh)
+    sh1._id = ColShips.insert(sh1)
+    sh2._id = ColShips.insert(sh2)
+    sh3._id = ColShips.insert(sh3)
+
+    ColPlayer.update({_id: 'GTqdJauTfyCuttBiD'}, {$set: {
+        currentShipId: sh._id
+    }})
+
+    ColStarsystems.update({_id:sol._id}, {
+        $set: {
+            shipIds: [sh._id, sh1._id, sh2._id, sh3._id]
         }
     })
 }

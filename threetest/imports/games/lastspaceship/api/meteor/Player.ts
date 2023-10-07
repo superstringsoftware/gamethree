@@ -1,5 +1,6 @@
 import Meteor from 'meteor/meteor'
-import { Spaceship } from '../model/Spaceship'
+import { IShipData } from '../model/Ships/interfaces'
+
 
 export type Player = {
     name: string,
@@ -20,4 +21,4 @@ declare module "meteor/meteor" {
 }
 
 export const ColPlayer = new Mongo.Collection<Player>("players")
-export const ColShips = new Mongo.Collection<Spaceship>("ships")
+export const ColShips = new Mongo.Collection<IShipData>("ships")

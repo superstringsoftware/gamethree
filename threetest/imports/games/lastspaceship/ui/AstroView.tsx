@@ -8,11 +8,10 @@ import { Outlet } from "react-router-dom";
 import {useTracker} from 'meteor/react-meteor-data'
 
 import Konva from 'konva'
-import { AstroBody } from "../api/model/Astro";
-import { AllHullTypes, Spaceship } from "../api/model/Spaceship";
+
+
 
 import {useSubscribe, useFind} from 'meteor/react-meteor-data'
-import { ColAstrobodies, fromAstroBodyId } from "../api/meteor/AstroBodies";
 import { ColShips } from "../api/meteor/Player";
 
 import {Meteor} from 'meteor/meteor'
