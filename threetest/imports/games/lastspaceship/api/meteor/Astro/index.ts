@@ -12,7 +12,10 @@ export const ColPlanetoids  = new Mongo.Collection<IPlanetoidData>("planetoids")
 export const AstroController = {
     starSystemFromData: (id:string)=> {
         const st = ColStarsystems.findOne({_id:id})
+        if (!st) return null
         const ss = new StarSystem(st)
+        //console.log(ss)
+        ss.star.coords = new Vector2g(0,0)
         ss.planetoids = ColPlanetoids.find({systemId: id}).map(p => p)
         ss.ships = ColShips.find({systemId: id}).map(p => p)
         // now, central bodies

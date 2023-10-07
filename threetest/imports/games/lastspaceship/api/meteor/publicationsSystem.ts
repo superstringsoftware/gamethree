@@ -25,8 +25,8 @@ Meteor.publish("systemByCurrentPlayer", function(){
     if (!ss) {
         throw new Meteor.Error("not-found", "no star system with such id")
     }
-    const sso = AstroController.starSystemFromData(ss._id)
-    console.log(sso)
+    //const sso = AstroController.starSystemFromData(ss._id)
+    //console.log(sso)
     return [
         ColStarsystems.find({_id: sh.systemId}),
         ColPlanetoids.find({systemId: ss._id}),

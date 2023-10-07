@@ -18,13 +18,13 @@ export class Vector2g {
     /**
      * By convention, returns (r, angle) vector
      */
-    ToPolar():Vector2g {
-        const r = Math.sqrt(this.x*this.x + this.y*this.y)
-        const angle = Math.acos(this.x/r)
+    static ToPolar(p:Vector2g):Vector2g {
+        const r = Math.sqrt(p.x*p.x + p.y*p.y)
+        const angle = Math.acos(p.x/r)
         return new Vector2g(r,angle)
     }
 
-    FromPolar():Vector2g {
-        return new Vector2g(this.x*Math.cos(this.y), this.x*Math.sin(this.y))
+    static FromPolar(p:Vector2g):Vector2g {
+        return new Vector2g(p.x*Math.cos(p.y), p.x*Math.sin(p.y))
     }
 }

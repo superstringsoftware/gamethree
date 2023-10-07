@@ -29,12 +29,31 @@ export class StarSystem {
   star: IStarData; // central star
   planetoids: IPlanetoidData[]; // ALL planetoids in the system with their own orbit data as needed
   ships: IAstroShip[]; // ALL ships in the system currently
+  scale: number
+  centerX: number
+  centerY: number
 
   constructor(star:IStarData) {
     this.star = star
     this.planetoids=[]
     this.ships=[]
+    this.scale = 1
   }
+
+  calcScale(w:number, h:number) {
+    this.scale = this.star.radius * 1000 / Math.min(w,h)
+    this.centerX = w/2
+    this.centerY = h/2
+  }
+
+  toScreenCoords(v:Vector2g) {
+    //console.log("Calculating screen coords:")
+    const res = new Vector2g(this.centerX + v.x/this.scale, 
+      this.centerY - v.y/this.scale)
+    //console.log(this)
+    return res
+  }
+  
 
   /**
    * Advancing orbiting things only, no gravity simulations!
@@ -61,13 +80,14 @@ export class StarSystem {
       // first, updating all decarts to local
       pl.forEach((p) => {
         if (p.orbit) {
-          p.coords = p.orbit.polar.FromPolar();
-          p.coordsStar = p.orbit.polar.FromPolar();
+          p.coords = Vector2g.FromPolar(p.orbit.polar)
+          p.coordsStar = Vector2g.FromPolar(p.orbit.polar)
         }
       });
       pl.forEach((p) => {
         if (p.orbit) {
           // it's a planet
+          //console.log(p.orbit.centerBody)
           p.coordsStar = Vector2g.Add(p.coordsStar, p.orbit.centerBody.coords);
           if (p.orbit.centerBody.orbit) {
             // it's a moon

@@ -8,6 +8,8 @@ import { Outlet } from "react-router-dom";
 import {useTracker} from 'meteor/react-meteor-data'
 
 import Konva from 'konva'
+import { Stage, Layer, Rect, Text, Circle, Line } from 'react-konva';
+
 
 
 
@@ -39,8 +41,10 @@ export const AstroView = () => {
     const myShip = ColShips.findOne({_id:player?.currentShipId})
     //console.log(myShip)
 
-    const ss = AstroController.starSystemFromData(myShip?.systemId)
-    console.log(ss)
+    const [ss, setss] = useState(null)
+    
+
+    const [prepDone, setPrepDone] = useState(false)
 
     
 
@@ -49,8 +53,18 @@ export const AstroView = () => {
     setWidth(ref.current.offsetWidth);
     setHeight(ref.current.offsetHeight);
     //setScale(ae.children[0].orbit.radius * 1.2 /( Math.min(width,height) / 2))
-    
   }, []);
+
+  useEffect(() => {
+    if (!sysLoading()) {
+        const ss1 = AstroController.starSystemFromData(myShip?.systemId)
+        ss1.calcScale(width, height)
+        ss1.advanceOrbits(0.1)
+        ss1.updateDecart()
+        console.log("SCALE:", ss)
+        setss(ss1)
+    }
+  }, [sysLoading()]);
 
   
   const canvasRef = useRef(null);
@@ -93,10 +107,27 @@ export const AstroView = () => {
               </p>
               
           </Col>
-          <Col sm={12} md={6} lg={6} xl={6} ref={ref} style={{height: "90vh"}}
-          >
-    <div id="cont" style={{ border: "solid 1px #006600"}} 
-    className="terminal-ship"></div>
+          <Col sm={12} md={6} lg={6} xl={6} ref={ref} 
+          style={{height: "90vh", border: "solid 1px #006600"}}
+          className="terminal-ship">
+    <Stage width={width} height={height}>
+      <Layer>
+        {ss && <Circle x={width/2} y={height/2} radius={20} 
+        fillRadialGradientEndRadius={20}
+        fillRadialGradientColorStops ={[0, 'red', 0.8, 'yellow', 1, 'white']} />}
+        {
+            ss?.planetoids.map((p,i)=>{
+                
+                const coords = ss.toScreenCoords(p.coordsStar)
+                
+                
+            return <Circle key={i}
+            x={coords.x} y={coords.y} radius={10} 
+            fillRadialGradientEndRadius={10}
+        fillRadialGradientColorStops ={[0, 'green', 0.8, 'blue', 1, 'white']} />})
+        }
+      </Layer>
+    </Stage>
   </Col>
   </Row>
   );
