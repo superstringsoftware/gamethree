@@ -1,4 +1,4 @@
-import { IPlanetoidData, IStarSystemData } from "../../model/Astro/interfaces";
+import { IAstroBody, IGravityBody, IPlanetoidData, IStarSystemData } from "../../model/Astro/interfaces";
 import {Mongo} from 'meteor/mongo'
 import { Vector2g } from "../../model/Astro/Physics";
 import { StarSystem } from "../../model/Astro/StarSystem";
@@ -9,12 +9,36 @@ import { ColPlayer, ColShips } from "../Player";
 export const ColStarsystems = new Mongo.Collection<IStarSystemData>("starsystems")
 export const ColPlanetoids  = new Mongo.Collection<IPlanetoidData>("planetoids")
 
+export const AstroController = {
+    starSystemFromData: (id:string)=> {
+        const st = ColStarsystems.findOne({_id:id})
+        const ss = new StarSystem(st)
+        ss.planetoids = ColPlanetoids.find({systemId: id}).map(p => p)
+        ss.ships = ColShips.find({systemId: id}).map(p => p)
+        // now, central bodies
+        const f = (pl:IAstroBody[])=> {
+            pl.forEach(p => {
+                if (p.orbit) {
+                    if(p.orbit.centerId === id) {
+                        p.orbit.centerBody = ss.star
+                    } else {
+                        p.orbit.centerBody = ss.planetoids.find(p1 => p1._id === p.orbit.centerId) as IGravityBody
+                    }
+                }
+            })
+        }
+        f(ss.planetoids)
+        f(ss.ships)
+        return ss
+    }
+}
+
 export const _createSolarSystem = () => {
     const s = ColStarsystems.findOne({name: "Sol"})
     if (s) {
-        ColPlanetoids.remove({_id:{$in: s.planetoidIds}})
+        ColPlanetoids.remove({systemId: s._id})
+        ColShips.remove({systemId: s._id})
         ColStarsystems.remove({_id:s._id})
-        ColShips.remove({_id: {$in: s.shipIds}})
     }
     let sol:IStarSystemData = {
         code: "S0000001",
@@ -22,13 +46,12 @@ export const _createSolarSystem = () => {
         description: "Our sun",
         mass: 2e30,
         radius: 696340000,
-        planetoidIds:[],
-        shipIds:[]
     }
     StarSystem.verifyGravityBody(sol)
     sol._id = ColStarsystems.insert(sol)
 
     const mercury:IPlanetoidData = {
+        systemId: sol._id,
         code: "S0000001-P01",
         name: "Mercury",
         description: "Closest planet to the Sun",
@@ -45,6 +68,7 @@ export const _createSolarSystem = () => {
     StarSystem.verifyGravityBody(mercury)
 
     const venus:IPlanetoidData = {
+        systemId: sol._id,
         code: "S0000001-P02",
         name: "Venus",
         description: "Our hot neighbor",
@@ -61,6 +85,7 @@ export const _createSolarSystem = () => {
     StarSystem.verifyGravityBody(venus)
 
     const earth:IPlanetoidData = {
+        systemId: sol._id,
         code: "S0000001-P03",
         name: "Earth",
         description: "Home of humanity",
@@ -77,6 +102,7 @@ export const _createSolarSystem = () => {
     StarSystem.verifyGravityBody(earth)
 
     const mars:IPlanetoidData = {
+        systemId: sol._id,
         code: "S0000001-P04",
         name: "Mars",
         description: "Our cold neighbor",
@@ -98,6 +124,7 @@ export const _createSolarSystem = () => {
     mars._id = ColPlanetoids.insert(mars)
 
     const moon:IPlanetoidData = {
+        systemId: sol._id,
         code: "S0000001-P03-M01",
         name: "The Moon",
         description: "Earth's only satellite",
@@ -113,13 +140,9 @@ export const _createSolarSystem = () => {
     }
     StarSystem.verifyGravityBody(moon)
     moon._id = ColPlanetoids.insert(moon)
-    ColStarsystems.update({_id:sol._id}, {
-        $set: {
-            planetoidIds:[mercury._id, venus._id, earth._id, mars._id, moon._id ]
-        }
-    })
-
+    
     const sh1:IShipData = {
+        systemId: sol._id,
         hd:AllHullTypes[0],
         transponder: "P-F342",
         transponderOn: true,
@@ -134,6 +157,7 @@ export const _createSolarSystem = () => {
           )
     }
     const sh2:IShipData = {
+        systemId: sol._id,
         hd:AllHullTypes[1],
         transponder: "M-F342",
         transponderOn: true,
@@ -148,6 +172,7 @@ export const _createSolarSystem = () => {
           )
     }
     const sh3:IShipData = {
+        systemId: sol._id,
         hd:AllHullTypes[3],
         transponder: "S-18",
         transponderOn: true,
@@ -162,6 +187,7 @@ export const _createSolarSystem = () => {
           )
     }
     const sh:IShipData = {
+        systemId: sol._id,
         ownerId: 'GTqdJauTfyCuttBiD',
         hd:AllHullTypes[2],
         transponder: "PL-001",
@@ -185,9 +211,5 @@ export const _createSolarSystem = () => {
         currentShipId: sh._id
     }})
 
-    ColStarsystems.update({_id:sol._id}, {
-        $set: {
-            shipIds: [sh._id, sh1._id, sh2._id, sh3._id]
-        }
-    })
+    
 }

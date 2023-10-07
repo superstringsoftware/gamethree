@@ -14,6 +14,8 @@ export interface IAstroBody {
     coordsStar?: Vector2g; // coordinates relative to the star
     velocity?: Vector2g;
     orbit?: IOrbitParams; // if present - it's orbiting, if not it's not
+    systemId?: string; // which system id it belongs to. if none -
+    // coordinates are galactic coordinates
 }
 
 /**
@@ -41,8 +43,8 @@ export interface IStarData extends IGravityBody {
  * (so we will store Star together with star system to simplify things.)
  */
 export interface IStarSystemData extends IStarData {
-    planetoidIds: string[],
-    shipIds: string[]
+    //planetoidIds: string[],
+    //shipIds: string[]
 }
 
 /**

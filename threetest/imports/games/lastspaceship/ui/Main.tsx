@@ -6,6 +6,8 @@ import Form from "react-bootstrap/Form";
 import { Outlet } from "react-router-dom";
 
 import {useTracker, useSubscribe} from 'meteor/react-meteor-data'
+import { ColPlayer } from "../api/meteor/Player";
+import {Meteor} from 'meteor/meteor'
 
 
 // full screen layout
@@ -13,6 +15,8 @@ export const Main = () => {
   
   const u = useTracker(()=> Meteor.user(), [Meteor.userId()])
   useSubscribe("userData")
+  //const player = ColPlayer.findOne({_id: u.playerId})
+  //console.log(player)
 
   //useEffect(()=>document.body.classList.add("terminal-ship"),[])
 

@@ -30,6 +30,12 @@ export class StarSystem {
   planetoids: IPlanetoidData[]; // ALL planetoids in the system with their own orbit data as needed
   ships: IAstroShip[]; // ALL ships in the system currently
 
+  constructor(star:IStarData) {
+    this.star = star
+    this.planetoids=[]
+    this.ships=[]
+  }
+
   /**
    * Advancing orbiting things only, no gravity simulations!
    * @param t
