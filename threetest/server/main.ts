@@ -11,6 +11,7 @@ import "/imports/games/simtower/api/publications";
 import "/imports/meterm/TerminalSrv";
 
 import "/imports/games/lastspaceship/api/meteor/publicationsSystem"
+import { _createSolarSystem } from "/imports/games/lastspaceship/api/meteor/Astro";
 
 Meteor.startup(async () => {
   const us = Meteor.users.find({ playerId: { $exists: false } });
@@ -20,6 +21,7 @@ Meteor.startup(async () => {
   });
 
   //setupSolar()
+  //_createSolarSystem()
 });
 
 const setupSolar = () => {

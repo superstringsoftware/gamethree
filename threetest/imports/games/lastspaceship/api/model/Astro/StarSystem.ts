@@ -35,16 +35,15 @@ export class StarSystem {
    * @param t
    */
   advanceOrbits(t: number) {
-    this.planetoids.forEach((p) => {
-      if (p.orbit) {
-        p.orbit.polar.y += p.orbit.Omega * t;
+      const f = (pl:IAstroBody[]) => {
+        pl.forEach((p) => {
+            if (p.orbit) {
+              p.orbit.polar.y += p.orbit.Omega * t;
+            }
+          });
       }
-    });
-    this.ships.forEach((p) => {
-      if (p.orbit) {
-        p.orbit.polar.y += p.orbit.Omega * t;
-      }
-    });
+    f(this.planetoids)
+    f(this.ships)
   }
 
   /**
@@ -114,7 +113,8 @@ export class StarSystem {
       polar: new Vector2g(radius, angle),
       Vorb: vorb,
       Omega: clockwise ? om * -1 : om,
-      centerBody: center,
+      //centerBody: center,
+      centerId: center._id
     };
   }
 }
