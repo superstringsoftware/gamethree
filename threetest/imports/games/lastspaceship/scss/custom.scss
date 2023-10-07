@@ -1,3 +1,15 @@
+body::before {    
+    content: "";
+    background-image: url('/lastspaceship/img/starsbg2.jpeg');
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.3;
+}
+
 .planet-sector {
     border: solid 1px #eeeeee !important;
 }

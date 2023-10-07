@@ -41,6 +41,8 @@ export interface IGravityBody extends IAstroBody {
 export interface IStarData extends IGravityBody {
     starClass?: string;
     surfaceTemp?: number;
+    galacticCoords?: Vector2g;
+    spectralColor?: string;
 }
 
 /**
@@ -50,6 +52,7 @@ export interface IStarData extends IGravityBody {
 export interface IStarSystemData extends IStarData {
     //planetoidIds: string[],
     //shipIds: string[]
+    
 }
 
 /**

@@ -42,10 +42,9 @@ export const AstroView = () => {
     const myShip = ColShips.findOne({_id:player?.currentShipId})
     //console.log(myShip)
 
-    const [ss, setss] = useState(null)
-    
-
+    const [ss, setss] = useState(null)    
     const [showOrbits, setShowOrbits] = useState(true)
+    const [curCenter, setCurCenter] = useState(null)
 
     
 
@@ -65,6 +64,7 @@ export const AstroView = () => {
         console.log("SCALE:", ss1)
         setss(ss1)
         setScale(ss1.scale)
+        setCurCenter(ss1.star)
     }
   }, [sysLoading()]);
 
@@ -99,14 +99,14 @@ export const AstroView = () => {
     
   return (
       <Row >
-          <Col sm={12} md={6} lg={3} xl={3} style={{backgroundColor: "black"}}>
+          <Col sm={12} md={6} lg={3} xl={3} >
               <h4>stuff</h4>
           Scale: {scale}<br/>
           Time scale: {timeScale}
           </Col>
           
           <Col sm={12} md={6} lg={3} xl={3} 
-          style={{backgroundColor: "black", border: "solid 1px #006600"}}>
+          style={{border: "solid 1px #006600"}}>
               <img src="/lastspaceship/ships/sparrow01edges.png"
               width="100%" />
               <p className="text-sci-fi">
@@ -122,11 +122,11 @@ export const AstroView = () => {
           className="terminal-ship">
     <Stage width={width} height={height}>
       <Layer>
-        {ss && <Circle x={width/2} y={height/2} radius={Math.max(20,ss.star.radius/scale)} 
-        fillRadialGradientEndRadius={Math.max(20,ss.star.radius/scale)}
-        fillRadialGradientColorStops ={[0, 'red', 0.8, 'yellow', 1, 'white']} />}
+        {ss && <Circle x={width/2} y={height/2} radius={Math.max(20,curCenter.radius/scale)} 
+        fillRadialGradientEndRadius={Math.max(20,curCenter.radius/scale)}
+        fillRadialGradientColorStops ={curCenter.visuals?.gradientStops? curCenter.visuals.gradientStops : [0, 'red', 0.8, 'yellow', 1, 'white']} />}
         {
-            showOrbits && ss?.planetoids.map((p,i)=> {
+            showOrbits && ss?.planetoids.filter(pf=> pf.orbit?.centerId === curCenter._id).map((p,i)=> {
                 //const coords = ss.toScreenCoords(p.coordsStar)
                 
                 return <Circle key={i} x={width/2} y={height/2} 
@@ -138,15 +138,22 @@ export const AstroView = () => {
             })
         }
         {
-            ss?.planetoids.map((p,i)=>{
+            ss?.planetoids.filter(pf=> pf.orbit?.centerId === curCenter._id).map((p,i)=>{
                 ss.scale=scale
                 const coords = ss.toScreenCoords(p.coordsStar)
                 
                 
-            return <Circle key={i}
+            return <><Circle key={i}
             x={coords.x} y={coords.y} radius={Math.max(10,p.radius/scale)} 
             fillRadialGradientEndRadius={Math.max(10,p.radius/scale)}
-            fillRadialGradientColorStops ={p.visuals?.gradientStops? p.visuals.gradientStops : [0, 'gray', 1, '#cccccc']} />})
+            fillRadialGradientColorStops ={p.visuals?.gradientStops? p.visuals.gradientStops : [0, 'gray', 1, '#cccccc']} />
+            <Text text={p.name}
+                  x={coords.x+6} y={coords.y}
+                  fontSize={10}
+                  fontFamily={'Orbitron'}
+                  fill={'#33ff33'} />
+            </>
+            })
         }
         
       </Layer>

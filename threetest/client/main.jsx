@@ -10,6 +10,7 @@ import { Terminal } from '../imports/meterm/Terminal';
 import { Main } from '/imports/games/lastspaceship/ui/Main';
 import { SignUp } from '/imports/games/lastspaceship/ui/SignUp';
 import { AstroView } from '/imports/games/lastspaceship/ui/AstroView';
+import { GalaxyView } from '/imports/games/lastspaceship/ui/GalaxyView';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUp />,
+      },
+      {
+        path: "/galaxy",
+        element: <GalaxyView />,
       }
     ]
   },

@@ -11,6 +11,10 @@ export class Vector2g {
         return new Vector2g(v1.x+v2.x, v1.y+v2.y)
     }
 
+    static Sub(v1:Vector2g, v2:Vector2g):Vector2g {
+        return Vector2g.Add(v1, Vector2g.MulScalar(v2, -1))
+    }
+
     static MulScalar(v:Vector2g, a:number):Vector2g {
         return new Vector2g(v.x*a, v.y*a)
     }
