@@ -16,6 +16,6 @@ Meteor.startup(async () => {
   });
 
   //setupSolar()
-  _createSolarSystem()
+  //_createSolarSystem()
 });
 

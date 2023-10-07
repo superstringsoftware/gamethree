@@ -23,6 +23,7 @@ import { AstroController, ColPlanetoids, ColStarsystems } from "../api/meteor/As
 
 
 export const AstroView = () => {
+    console.log("RERENDER")
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const ref = useRef(null)
@@ -44,7 +45,7 @@ export const AstroView = () => {
     const [ss, setss] = useState(null)
     
 
-    const [prepDone, setPrepDone] = useState(false)
+    const [showOrbits, setShowOrbits] = useState(true)
 
     
 
@@ -61,28 +62,37 @@ export const AstroView = () => {
         ss1.calcScale(width, height)
         ss1.advanceOrbits(0.1)
         ss1.updateDecart()
-        console.log("SCALE:", ss)
+        console.log("SCALE:", ss1)
         setss(ss1)
+        setScale(ss1.scale)
     }
   }, [sysLoading()]);
 
   
   const canvasRef = useRef(null);
 
-  const [scale, setScale] = useState(1)
+  const [scale, setScale] = useState(ss ? ss.scale : 1)
 
   const handleKeys = (e)=> {
     console.log(e.key)
     switch(e.key) {
         case "z": setScale(scale*1.1); break;
         case "x": setScale(scale*0.9); break;
-        case "q": setTimeScale(timeScale*1.1); break;
+        case "q": 
+            console.log("Setting to ", timeScale*1.1);
+            setTimeScale(timeScale*1.1); 
+            break;
         case "w": setTimeScale(timeScale*0.9); break;
         //case "q": setScale(scale*0.9)
         default: break;
-    }
-    
+    } 
   }
+
+  // dependencies here are crazy important for some unknown reason
+  useEffect(()=> {
+    window.addEventListener("keydown", handleKeys);
+    return ()=>window.removeEventListener("keydown", handleKeys);
+  },[width, height, scale, timeScale])
 
 
     
@@ -112,20 +122,33 @@ export const AstroView = () => {
           className="terminal-ship">
     <Stage width={width} height={height}>
       <Layer>
-        {ss && <Circle x={width/2} y={height/2} radius={20} 
-        fillRadialGradientEndRadius={20}
+        {ss && <Circle x={width/2} y={height/2} radius={Math.max(20,ss.star.radius/scale)} 
+        fillRadialGradientEndRadius={Math.max(20,ss.star.radius/scale)}
         fillRadialGradientColorStops ={[0, 'red', 0.8, 'yellow', 1, 'white']} />}
         {
-            ss?.planetoids.map((p,i)=>{
+            showOrbits && ss?.planetoids.map((p,i)=> {
+                //const coords = ss.toScreenCoords(p.coordsStar)
                 
+                return <Circle key={i} x={width/2} y={height/2} 
+                    radius={p.orbit.polar.x/scale} 
+                    stroke={'#33ff33'}
+                    dash={[2,2]}
+                    strokeWidth={1}
+                />
+            })
+        }
+        {
+            ss?.planetoids.map((p,i)=>{
+                ss.scale=scale
                 const coords = ss.toScreenCoords(p.coordsStar)
                 
                 
             return <Circle key={i}
-            x={coords.x} y={coords.y} radius={10} 
-            fillRadialGradientEndRadius={10}
-        fillRadialGradientColorStops ={[0, 'green', 0.8, 'blue', 1, 'white']} />})
+            x={coords.x} y={coords.y} radius={Math.max(10,p.radius/scale)} 
+            fillRadialGradientEndRadius={Math.max(10,p.radius/scale)}
+            fillRadialGradientColorStops ={p.visuals?.gradientStops? p.visuals.gradientStops : [0, 'gray', 1, '#cccccc']} />})
         }
+        
       </Layer>
     </Stage>
   </Col>

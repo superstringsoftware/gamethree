@@ -49,6 +49,10 @@ export const _createSolarSystem = () => {
         description: "Our sun",
         mass: 2e30,
         radius: 696340000,
+        visuals: {
+            mainColor: "yellow",
+            gradientStops: [0, "red", 0.7, "yellow", 1, "white"]
+        }
     }
     StarSystem.verifyGravityBody(sol)
     sol._id = ColStarsystems.insert(sol)
@@ -61,6 +65,10 @@ export const _createSolarSystem = () => {
         type: "planet",
         mass: 3.285e23,
         radius: 2440000,
+        visuals: {
+            mainColor: "#591d04",
+            gradientStops: [0, '#591d04', 0.8, '#624e3c', 1, '#f2d8ce']
+        },
         orbit: StarSystem.calculateOrbitParams(
             sol,
             52000000000,
@@ -78,6 +86,10 @@ export const _createSolarSystem = () => {
         type: "planet",
         mass: 4.86e24,
         radius: 6051000,
+        visuals: {
+            mainColor: "#cc780a",
+            gradientStops: [0, '#cc780a', 0.8, '#935922', 1, '#fad4a2']
+        },
         orbit: StarSystem.calculateOrbitParams(
             sol,
             108000000000,
@@ -95,6 +107,10 @@ export const _createSolarSystem = () => {
         type: "planet",
         mass: 5.972e24,
         radius: 6370000,
+        visuals: {
+            mainColor: "blue",
+            gradientStops: [0, 'green', 0.8, '#336699', 1, '#3399ff']
+        },
         orbit: StarSystem.calculateOrbitParams(
             sol,
             150000000000,
@@ -112,6 +128,10 @@ export const _createSolarSystem = () => {
         type: "planet",
         mass: 0.64e24,
         radius: 3380000,
+        visuals: {
+            mainColor: "#8f2201",
+            gradientStops: [0, '#8f2201', 0.8, '#ed5121', 1, '#fad4a2']
+        },
         orbit: StarSystem.calculateOrbitParams(
             sol,
             239000000000,
@@ -134,6 +154,10 @@ export const _createSolarSystem = () => {
         type: "moon",
         mass: 7.347e22,
         radius: 1730000,
+        visuals: {
+            mainColor: "gray",
+            gradientStops: [0, 'green', 0.8, '#336699', 1, '#3399ff']
+        },
         orbit: StarSystem.calculateOrbitParams(
             earth,
             384000000,

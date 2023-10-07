@@ -16,6 +16,11 @@ export interface IAstroBody {
     orbit?: IOrbitParams; // if present - it's orbiting, if not it's not
     systemId?: string; // which system id it belongs to. if none -
     // coordinates are galactic coordinates
+    visuals?: {
+        shape?: string,   
+        mainColor?: string,
+        gradientStops?: Array<string | number>
+    }
 }
 
 /**
