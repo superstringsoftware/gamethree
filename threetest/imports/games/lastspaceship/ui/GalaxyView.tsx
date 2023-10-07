@@ -101,7 +101,7 @@ export const GalaxyView = () => {
                 fillRadialGradientEndRadius={r}
                 fillRadialGradientColorStops ={[0, g.spectralColor, 0.8, g.spectralColor, 1, 'white']} />
                 <Text text={g.name}
-                  x={g.galacticCoords.x*scale+6} y={g.galacticCoords.y*scale}
+                  x={g.galacticCoords.x*scale+r+2} y={g.galacticCoords.y*scale - r/2}
                   fontSize={10}
                   
                   fill={'gray'} />

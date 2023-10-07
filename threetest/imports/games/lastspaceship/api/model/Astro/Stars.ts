@@ -108,7 +108,7 @@ export const Stars = {
             let st : IStarData = {
                 starClass: sc.name,
                 surfaceTemp: sc.minT + Math.random()*(sc.maxT-sc.minT),
-                galacticCoords: new Vector2g(Math.random()*dimx, Math.random()*dimy),
+                galacticCoords: new Vector2g(10+Math.random()*(dimx-20), 10+Math.random()*(dimy-20)),
                 spectralColor: sc.color,
                 radius: (sc.minR + Math.random()*(sc.maxR-sc.minR))*Stars.solarR,
                 mass: (sc.minM + Math.random()*(sc.maxM-sc.minM))*Stars.solarM,
