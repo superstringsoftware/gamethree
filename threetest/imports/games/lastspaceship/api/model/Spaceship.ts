@@ -46,7 +46,11 @@ export type HullData = {
     dryMass: number,
     pictures?: {
         normal?: string,
-        icon?: string
+        icon?: string,
+        edges?: string, // quick and dirty way to make edges:
+        // Gimp - Edge-Detect - Image Gradient
+        // then transparency
+        // then hue to get greenish color
     }
 }
 
@@ -118,7 +122,8 @@ export const AllHullTypes : HullData[] = [
         materials: [{name:"Titanium"}],
         dryMass: 100000,
         pictures: {
-            normal: "/lastspaceship/ships/falcon01.png"
+            normal: "/lastspaceship/ships/falcon01.png",
+            edges: "/lastspaceship/ships/falcon01edges.png"
         }
     },
     {
@@ -129,7 +134,8 @@ export const AllHullTypes : HullData[] = [
         materials: [{name:"Titanium"}],
         dryMass: 55000,
         pictures: {
-            normal: "/lastspaceship/ships/sparrow01.png"
+            normal: "/lastspaceship/ships/sparrow01.png",
+            edges: "/lastspaceship/ships/falcon01edges.png"
         }
     },
     {
@@ -140,7 +146,8 @@ export const AllHullTypes : HullData[] = [
         materials: [{name:"Titanium"}],
         dryMass: 135000,
         pictures: {
-            normal: "/lastspaceship/ships/ladybug01.png"
+            normal: "/lastspaceship/ships/ladybug01.png",
+            edges: "/lastspaceship/ships/falcon01edges.png"
         }
     },
     {
@@ -151,7 +158,8 @@ export const AllHullTypes : HullData[] = [
         materials: [{name:"Titanium"}],
         dryMass: 500000,
         pictures: {
-            normal: "/lastspaceship/ships/ladybug01.png"
+            normal: "/lastspaceship/ships/ladybug01.png",
+            edges: "/lastspaceship/ships/falcon01edges.png"
         }
     },
 ]

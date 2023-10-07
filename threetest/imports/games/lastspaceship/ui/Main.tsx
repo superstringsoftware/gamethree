@@ -14,14 +14,13 @@ export const Main = () => {
   const u = useTracker(()=> Meteor.user(), [Meteor.userId()])
   useSubscribe("userData")
 
-  useEffect(()=>document.body.classList.add("terminal-ship"),[])
+  //useEffect(()=>document.body.classList.add("terminal-ship"),[])
 
   return (
-    <Container fluid className="py-2">
+    <Container fluid={"xxl"} className="py-2">
       <Row
         className="text-sci-fi-o py-3 px-4"
-      >{u?<span>{u.username}</span> :
-      <a href="#">enroll</a>}
+      >
         
       </Row>
       

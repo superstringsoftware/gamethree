@@ -339,14 +339,15 @@ const radarView = () => {
   
 
   //console.log(ae.children[0].orbit)
-  useEffect(() => radarView(), 
+  useEffect(() => systemView(), 
   [width, height, scale, timeScale, bodies, ships, ae]);
 
     
     
   return (
       <Row >
-          <Col sm={12} md={6} lg={4} xl={3}><h4>stuff</h4>
+          <Col sm={12} md={6} lg={3} xl={3} style={{backgroundColor: "black"}}>
+              <h4>stuff</h4>
           <ul className="list-group">
               <li className="list-group-item">
                   <a href="#" onClick={()=>{
@@ -369,12 +370,23 @@ const radarView = () => {
           Scale: {scale}<br/>
           Time scale: {timeScale}
           </Col>
-          <Col sm={12} md={6} lg={8} xl={9} ref={ref} style={{height: "90vh"}}>
-    <div id="cont" style={{
-              border: "solid 2px #00cc00",
+          
+          <Col sm={12} md={6} lg={3} xl={3} 
+          style={{backgroundColor: "black", border: "solid 1px #006600"}}>
+              <img src="/lastspaceship/ships/sparrow01edges.png"
+              width="100%" />
+              <p className="text-sci-fi">
+                  <span className="text-sci-fi-g">hull:</span> falcon<br/>
+                  <span className="text-sci-fi-g">transponder:</span> P-F173<br/>
+                  <span className="text-sci-fi-g">owner:</span> unknown<br/>
+                  <span className="text-sci-fi-g">category:</span> police patrol
+              </p>
               
-              
-          }} ></div>
+          </Col>
+          <Col sm={12} md={6} lg={6} xl={6} ref={ref} style={{height: "90vh"}}
+          >
+    <div id="cont" style={{ border: "solid 1px #006600"}} 
+    className="terminal-ship"></div>
   </Col>
   </Row>
   );
