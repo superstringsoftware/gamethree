@@ -30,6 +30,15 @@ export const Main = () => {
         })
   }
 
+  const deleteGalaxy = (id) => {
+      console.log("Deleting", id)
+      Meteor.call("galaxy.remove", id, 
+        (err,res)=> {
+            console.log(err,res)
+            setShowMainMenu(false)
+        })
+  }
+
   return (
     <Container fluid={"xxl"} className="py-2">
       <Row
@@ -60,6 +69,9 @@ export const Main = () => {
                     <Link to={"/galaxy/"+g}
                     onClick={()=>setShowMainMenu(false)}>
                         {g}</Link>
+                        <Button size={"sm"} variant="outline-danger"
+                        onClick={()=>deleteGalaxy(g)}>
+                            Delete</Button>
                 </li>)
             }
         </ul>

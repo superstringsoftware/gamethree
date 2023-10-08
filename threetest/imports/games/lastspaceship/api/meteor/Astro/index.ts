@@ -14,8 +14,7 @@ export const ColPlanetoids  = new Mongo.Collection<IPlanetoidData>("planetoids")
 export const AstroController = {
 
     // generate and SAVE a new galaxy for a given player
-    // but ONLY galaxy, actual systems are being generated
-    // on the first visit
+    // including planets etc
     generateGalaxy: (nstars: number, dimx, dimy) => {
         if (!Meteor.userId()) throw new Meteor.Error("not-authorized", "can't create galaxy anonymously")
         const player = ColPlayer.findOne({_id:Meteor.user().playerId})
@@ -30,8 +29,36 @@ export const AstroController = {
         for(let i = 0; i<nstars; i++) {
             let st = Stars.generateStar(dimx,dimy);
             st.galaxyId = galId
-            ColStarsystems.insert(st)
+            st._id = ColStarsystems.insert(st)
+            // now planets
+            const pl = Stars.generateAllPlanetsForStar(st)
+            pl.forEach(p=> {
+                p.galaxyId = galId
+                p.systemId = st._id
+                ColPlanetoids.insert(p)
+            })
         }
+    },
+
+    /**
+     * Removes EVERYTHING, be very careful with this
+     */
+    removeGalaxy: (gid:string) => {
+        if (!Meteor.userId()) throw new Meteor.Error("not-authorized", "can't create galaxy anonymously")
+        const player = ColPlayer.findOne({_id:Meteor.user().playerId})
+        if (!player) throw new Meteor.Error("not-authorized", "user doesnt have a player profile")
+        if (!player.galaxies.find(g => g === gid)) {
+            throw new Meteor.Error("not-authorized", "user doesnt own this galaxy")
+        }
+        const ng = player.galaxies.filter(e => e!==gid)
+        const cg = (player.currentGalaxyId === gid) ? null : player.currentGalaxyId
+        ColPlayer.update({_id:player._id}, {
+            $set: {galaxies: ng, currentGalaxyId: cg}
+        })
+        ColStarsystems.remove({galaxyId: gid})
+        ColPlanetoids.remove({galaxyId: gid})
+        ColShips.remove({galaxyId: gid})
+
     },
 
     /**

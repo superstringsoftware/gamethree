@@ -125,14 +125,73 @@ export const Stars = {
         
     },
 
+    generateAllPlanetsForStar(st:IStarData) {
+        // habitable zone
+        const hzStart = 7500000*st.surfaceTemp / 400
+        const hzEnd = 7500000*st.surfaceTemp / 150
+        let numOfPlanets = Math.floor(5*Math.random())
+        if (Math.random()>0.85) numOfPlanets+= 1
+        if (Math.random()>0.95) numOfPlanets+= 1
+        let nHabit = Math.floor(1 + 0.7*Math.random()*numOfPlanets)
+        
+        if (numOfPlanets === 0) nHabit = 0
+        const nInner = Math.floor((numOfPlanets - nHabit)/2)
+        const nOuter = numOfPlanets - nHabit - nInner
+        console.log("Total number of planets / inner / habitable zone / outer: ", 
+            numOfPlanets, nInner, nHabit, nOuter) 
+        
+        // inner
+        let d = st.radius*5 + Math.random()*(hzStart-st.radius*5)/nInner
+        let np = 1
+        let planets = []
+        for (let i = 0; i<nInner; i++) {
+            const p = Stars.generatePlanetForStar(st,
+                d, {
+                    atmo: [0.4, 0.75, 0.9],
+                    planetNum: np
+                })
+                d+=Math.random()*(hzStart-st.radius*5)/nInner
+                np++
+                planets.push(p)
+            //console.log(p)
+        }
+        // habitable zone
+        d = hzStart+Math.random()*(hzEnd-hzStart)/nHabit
+        for (let i = 0; i<nHabit; i++) {
+            const p = Stars.generatePlanetForStar(st,
+                d, {
+                    atmo: [0.2, 0.5, 0.8],
+                    planetNum: np
+                })
+                np++
+                d+=Math.random()*(hzEnd-hzStart)/nHabit
+                planets.push(p)
+            //console.log(p)
+        }
+        // outer
+        d = hzEnd + Math.random()*hzEnd
+        for (let i = 0; i<nOuter; i++) {
+            const p = Stars.generatePlanetForStar(st,
+                d, {
+                    atmo: [0.7, 0.9, 0.98],
+                    planetNum: np
+                })
+                np++
+                d+=Math.random()*hzEnd
+                planets.push(p)
+            //console.log(p)
+        }
+        return planets
+    },
+
     generatePlanetForStar:(st:IStarData, distance:number, profile: {
         atmo: number[], // thresholds for atmosphere
         planetNum: number
     })=>{
         const temp = 7500000*st.surfaceTemp/distance
         // gas giant or not
-        const r = (Math.random() < 0.27) ? 40000 + Math.random()*50000 
-            : 1500 + Math.random()*12500
+        const r = (Math.random() < 0.25) ? 40000000 + Math.random()*50000000 
+            : 1500000 + Math.random()*10000000
         let atmo : "toxic" | "breathable" | "earth" | "abundant" = "toxic"
         const atmoR = Math.random()
         if (atmoR > profile.atmo[0]) atmo = "breathable"
@@ -143,9 +202,11 @@ export const Stars = {
         const t3 = Math.random()
         const t4 = Math.random()
         const tsum = t1 + t2 + t3 + t4
+        const m = (r/Stars.earthR)*Stars.earthM*(0.75+0.5*Math.random())
+        //console.log("mass: ", m, r/Stars.earthR)
         let pd:IPlanetoidData = {
             radius: r,
-            mass: (r/Stars.earthR)^3*Stars.earthM*(0.75+0.5*Math.random()),
+            mass: m,
             type: "planet",
             atmosphere: atmo,
             atmoPressure: Math.random()*2*(1+ Math.exp(Math.random()/0.95)),
