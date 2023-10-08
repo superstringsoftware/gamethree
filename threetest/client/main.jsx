@@ -11,6 +11,7 @@ import { Main } from '/imports/games/lastspaceship/ui/Main';
 import { SignUp } from '/imports/games/lastspaceship/ui/SignUp';
 import { AstroView } from '/imports/games/lastspaceship/ui/AstroView';
 import { GalaxyView } from '/imports/games/lastspaceship/ui/GalaxyView';
+import Row from 'react-bootstrap/esm/Row';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Row><h4>Hi there</h4></Row>,
+      },
+      {
+        path: "/system",
         element: <AstroView />,
       },
       {
@@ -26,7 +31,7 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: "/galaxy",
+        path: "/galaxy/:id",
         element: <GalaxyView />,
       }
     ]

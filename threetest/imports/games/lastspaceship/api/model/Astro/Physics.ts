@@ -19,6 +19,14 @@ export class Vector2g {
         return new Vector2g(v.x*a, v.y*a)
     }
 
+    static Size(v:Vector2g): number {
+        return Math.sqrt(v.x*v.x + v.y*v.y)
+    }
+
+    static Distance(v1:Vector2g, v2: Vector2g):number {
+        return Vector2g.Size(Vector2g.Sub(v1,v2))
+    }
+
     /**
      * By convention, returns (r, angle) vector
      */

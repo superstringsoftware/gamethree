@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor'
-import { AstroController, ColPlanetoids, ColStarsystems } from './Astro';
-import { ColPlayer, ColShips } from './Player';
-import { RunningSystems } from './RunningSystems'
+import { AstroController, ColPlanetoids, ColStarsystems } from '.';
+import { ColPlayer, ColShips } from '../Player';
+import { RunningSystems } from '../RunningSystems'
 
 const timeInterval = 100;
 const updateInterval = 1000;

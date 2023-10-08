@@ -1,9 +1,9 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 
 import {useTracker} from 'meteor/react-meteor-data'
 
@@ -21,18 +21,13 @@ import { ColPlayer, ColShips } from "../api/meteor/Player";
 import {Meteor} from 'meteor/meteor'
 import { AstroController, ColPlanetoids, ColStarsystems } from "../api/meteor/Astro";
 import { Stars } from "../api/model/Astro/Stars";
-
-
-const gal = []
-for (let i=0; i<100; i++) {
-    gal.push(Stars.generateStar(1200,800))
-}
-
-//console.log(gal)
+import { Vector2g } from "../api/model/Astro/Physics";
 
 
 export const GalaxyView = () => {
     
+    const {id} = useParams()
+
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const ref = useRef(null)
@@ -50,6 +45,11 @@ export const GalaxyView = () => {
     //console.log(player)
     const myShip = ColShips.findOne({_id:player?.currentShipId})
     //console.log(myShip)
+    const galLoading = useSubscribe("galaxyById", id)
+    const gal = useFind(()=>ColStarsystems.find({}),[id])
+
+    const [ssel1, setssel1] = useState(-1)
+    const [ssel2, setssel2] = useState(-1)
 
     
     
@@ -75,6 +75,7 @@ export const GalaxyView = () => {
             break;
         case "w": setTimeScale(timeScale*0.9); break;
         //case "q": setScale(scale*0.9)
+        case "Escape": setssel1(-1); setssel2(-1); break;
         default: break;
     } 
   }
@@ -98,20 +99,50 @@ export const GalaxyView = () => {
             gal.map((g,i)=> {
                 let r = 2 + g.radius / Stars.solarR * 4
                 if (r>12) r = 12
-                return <><Circle x={g.galacticCoords.x*scale} y={g.galacticCoords.y*scale} 
+                return <Fragment key={i}><Circle x={g.galacticCoords.x*scale} y={g.galacticCoords.y*scale} 
                 radius={r} 
                 fillRadialGradientEndRadius={r}
                 fillRadialGradientColorStops ={[0, g.spectralColor, 0.8, g.spectralColor, 1, 'white']} 
-                onClick={(e)=>console.log(g.name)}/>
+                onClick={(e)=>{
+                    console.log(g.name)
+                    if (i === ssel1) setssel1(-1)
+                    else
+                    if (i === ssel2) setssel2(-1)
+                    else {
+                        if (ssel1 === -1) setssel1(i)
+                        else setssel2(i)
+                    }
+                }}/>
+                {(ssel1 === i) && <Circle x={g.galacticCoords.x*scale} y={g.galacticCoords.y*scale} 
+                radius={r}
+                stroke="green"
+                strokeWidth={4} />}
+                {(ssel2 === i) && <Circle x={g.galacticCoords.x*scale} y={g.galacticCoords.y*scale} 
+                radius={r}
+                stroke="red"
+                strokeWidth={4} />}
+                { (ssel1 > -1) && (ssel2>-1) && 
+                <>
+                <Line points={[gal[ssel1].galacticCoords.x*scale, 
+                    gal[ssel1].galacticCoords.y*scale, gal[ssel2].galacticCoords.x*scale, 
+                    gal[ssel2].galacticCoords.y*scale]} 
+                    stroke="green" 
+                    strokeWidth={1} />
+                <Text text={"distance, l.y.:" + Vector2g.Distance(gal[ssel1].galacticCoords, gal[ssel2].galacticCoords)}
+                  x={gal[ssel1].galacticCoords.x*scale} y={gal[ssel1].galacticCoords.y*scale+10}
+                  fontSize={10}
+                  
+                  fill={'green'} />
+                </>}
                 <Text text={g.name}
                   x={g.galacticCoords.x*scale+r+2} y={g.galacticCoords.y*scale - r/2}
                   fontSize={10}
                   
                   fill={'gray'} />
-                </>
+                </Fragment>
             })
         }
-        <ShipIcon x={350} y={250} scaleX={0.05} scaleY={0.05} />
+        {/*<ShipIcon x={350} y={250} scaleX={0.05} scaleY={0.05} />*/}
       </Layer>
     </Stage>
   

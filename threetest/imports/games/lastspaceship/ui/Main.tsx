@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Modal, Row } from "react-bootstrap";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 import {useTracker, useSubscribe} from 'meteor/react-meteor-data'
 import { ColPlayer } from "../api/meteor/Player";
@@ -15,10 +15,20 @@ export const Main = () => {
   
   const u = useTracker(()=> Meteor.user(), [Meteor.userId()])
   useSubscribe("userData")
-  //const player = ColPlayer.findOne({_id: u.playerId})
-  //console.log(player)
+  const player = ColPlayer.findOne({_id: u?.playerId})
+  console.log(player)
 
   //useEffect(()=>document.body.classList.add("terminal-ship"),[])
+
+  const [showMainMenu, setShowMainMenu] = useState(false)
+
+  const genGalaxy = () => {
+      Meteor.call("galaxy.generate", 
+        40, 1200, 800, (err,res)=> {
+            console.log(err,res)
+            setShowMainMenu(false)
+        })
+  }
 
   return (
     <Container fluid={"xxl"} className="py-2">
@@ -27,11 +37,48 @@ export const Main = () => {
         style={{zIndex:-1500000}}
       >
           <Col>
-        <Button onClick={()=>console.log("main")}>main</Button>
+        <Button onClick={()=>setShowMainMenu(true)}>main</Button>
         </Col>
       </Row>
       
         <Outlet />
+
+        <Modal show={showMainMenu} onHide={()=>setShowMainMenu(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Main Menu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <Row>
+            <Col>
+        <h6>Current Galaxy</h6>
+        {player?.currentGalaxyId}
+        <h6>My Galaxies</h6>
+        <ul className="list-group">
+            {
+                player?.galaxies?.map((g,i)=> <li key={i} 
+                className="list-group-item">
+                    <Link to={"/galaxy/"+g}
+                    onClick={()=>setShowMainMenu(false)}>
+                        {g}</Link>
+                </li>)
+            }
+        </ul>
+        </Col>
+        <Col>
+        <h6>New Galaxy</h6>
+        <Button onClick={genGalaxy}>Generate Galaxy</Button>
+        </Col>
+        </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={()=>setShowMainMenu(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={null}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       
     </Container>
   );

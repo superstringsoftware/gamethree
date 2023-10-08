@@ -5,8 +5,9 @@ import "/imports/games/simtower/api/publications";
 
 import "/imports/meterm/TerminalSrv";
 
-import "/imports/games/lastspaceship/api/meteor/publicationsSystem"
-import { _createSolarSystem } from "/imports/games/lastspaceship/api/meteor/Astro";
+import "../imports/games/lastspaceship/api/meteor/Astro/publications"
+import "../imports/games/lastspaceship/api/meteor/Astro/methods"
+//import { _createSolarSystem } from "/imports/games/lastspaceship/api/meteor/Astro";
 
 Meteor.startup(async () => {
   const us = Meteor.users.find({ playerId: { $exists: false } });
