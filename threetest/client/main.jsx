@@ -23,7 +23,7 @@ const router = createBrowserRouter([
         element: <Row><h4>Hi there</h4></Row>,
       },
       {
-        path: "/system",
+        path: "/system/:id",
         element: <AstroView />,
       },
       {

@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import {useTracker} from 'meteor/react-meteor-data'
 
@@ -22,21 +22,19 @@ import { AstroController, ColPlanetoids, ColStarsystems } from "../api/meteor/As
 
 
 
-export const AstroView = () => {
-    
+export const AstroViewIPad = () => {
+    console.log("RERENDER")
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const ref = useRef(null)
 
-    const {id} = useParams()
-
     const [timeScale, setTimeScale] = useState(0.01)
 
-    const sysLoading = useSubscribe("systemById", id)
-    const bodies = useFind(()=>ColPlanetoids.find({}), [id])
-    const ships = useFind(()=>ColShips.find({}), [id])
-    const stars = useFind(()=>ColStarsystems.find({}), [id])
-    console.log(bodies, ships, stars)
+    const sysLoading = useSubscribe("systemByCurrentPlayer")
+    //const bodies = useFind(()=>ColPlanetoids.find({}), [])
+    //const ships = useFind(()=>ColShips.find({}), [])
+    //const stars = useFind(()=>ColStarsystems.find({}), [])
+    //console.log(bodies, ships, stars)
     const u = useTracker(()=> Meteor.user(), [Meteor.userId()])
     useSubscribe("userData")
     const player = ColPlayer.findOne({_id: u?.playerId})
@@ -59,7 +57,7 @@ export const AstroView = () => {
 
   useEffect(() => {
     if (!sysLoading()) {
-        const ss1 = AstroController.starSystemFromData(id)
+        const ss1 = AstroController.starSystemFromData(myShip?.systemId)
         ss1.calcScale(width, height)
         ss1.advanceOrbits(0.1)
         ss1.updateDecart()
@@ -101,9 +99,27 @@ export const AstroView = () => {
     
   return (
       <Row >
+          <Col sm={12} md={6} lg={3} xl={3} >
+              <h4>stuff</h4>
+          Scale: {scale}<br/>
+          Time scale: {timeScale}
+          </Col>
           
-          <Col ref={ref} 
-          style={{height: "85vh"}}>
+          <Col sm={12} md={6} lg={3} xl={3} 
+          style={{border: "solid 1px #006600"}}>
+              <img src="/lastspaceship/ships/sparrow01edges.png"
+              width="100%" />
+              <p className="text-sci-fi">
+                  <span className="text-sci-fi-g">hull:</span> falcon<br/>
+                  <span className="text-sci-fi-g">transponder:</span> P-F173<br/>
+                  <span className="text-sci-fi-g">owner:</span> unknown<br/>
+                  <span className="text-sci-fi-g">category:</span> police patrol
+              </p>
+              
+          </Col>
+          <Col sm={12} md={6} lg={6} xl={6} ref={ref} 
+          style={{height: "90vh", border: "solid 1px #006600"}}
+          className="terminal-ship">
     <Stage width={width} height={height}>
       <Layer>
         {ss && <Circle x={width/2} y={height/2} radius={Math.max(20,curCenter.radius/scale)} 

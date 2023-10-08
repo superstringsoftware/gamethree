@@ -9,7 +9,7 @@ import { Col, Container, Row } from "react-bootstrap";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 
 import { useTracker } from "meteor/react-meteor-data";
 
@@ -32,6 +32,8 @@ import { Vector2g } from "../api/model/Astro/Physics";
 
 export const GalaxyView = () => {
   const { id } = useParams();
+
+  const navigate=useNavigate()
 
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
@@ -89,6 +91,12 @@ export const GalaxyView = () => {
       case "n":
         setNamesOn(!namesOn);
         break;
+      case "i": 
+        console.log(ssel1)
+        if (ssel1 > -1) {
+            navigate("/system/"+gal[ssel1]._id)
+        };
+        break;
       default:
         break;
     }
@@ -98,7 +106,7 @@ export const GalaxyView = () => {
   useEffect(() => {
     window.addEventListener("keydown", handleKeys);
     return () => window.removeEventListener("keydown", handleKeys);
-  }, [width, height, scale, timeScale, namesOn]);
+  }, [width, height, scale, timeScale, namesOn, ssel1]);
 
   //if (galLoading()) return <h4>Loading galaxy...</h4>;
   //else
@@ -124,6 +132,9 @@ export const GalaxyView = () => {
                       1,
                       "white",
                     ]}
+                    onDblClick={()=>{
+                        console.log("opening system", g.name)
+                    }}
                     onClick={(e) => {
                       console.log(g.name);
                       if (i === ssel1) setssel1(-1);

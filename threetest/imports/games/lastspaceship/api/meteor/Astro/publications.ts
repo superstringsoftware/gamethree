@@ -16,6 +16,25 @@ Meteor.publish("galaxyById", function(gid){
     return ColStarsystems.find({galaxyId: gid})
 })
 
+Meteor.publish("systemById", function(id){
+    const p = ColPlayer.findOne({_id: Meteor.user()?.playerId})
+    if (!p) {
+        throw new Meteor.Error("not-found", "no player information")
+    }
+    const ss = ColStarsystems.findOne({_id: id})
+    if (!ss) {
+        throw new Meteor.Error("not-found", "no star system with such id")
+    }
+    //const sso = AstroController.starSystemFromData(ss._id)
+    //console.log(sso)
+    return [
+        ColStarsystems.find({_id: id}),
+        ColPlanetoids.find({systemId: ss._id}),
+        ColShips.find({systemId: ss._id})
+    ]
+})
+
+
 Meteor.publish("systemByCurrentPlayer", function(){
     const p = ColPlayer.findOne({_id: Meteor.user()?.playerId})
     if (!p) {

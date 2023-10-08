@@ -127,8 +127,8 @@ export const Stars = {
 
     generateAllPlanetsForStar(st:IStarData) {
         // habitable zone
-        const hzStart = 7500000*st.surfaceTemp / 400
-        const hzEnd = 7500000*st.surfaceTemp / 150
+        const hzStart = 7500000000*st.surfaceTemp / 400
+        const hzEnd = 7500000000*st.surfaceTemp / 150
         let numOfPlanets = Math.floor(5*Math.random())
         if (Math.random()>0.85) numOfPlanets+= 1
         if (Math.random()>0.95) numOfPlanets+= 1
