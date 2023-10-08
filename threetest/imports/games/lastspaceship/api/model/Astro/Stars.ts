@@ -192,7 +192,7 @@ export const Stars = {
         atmo: number[], // thresholds for atmosphere
         planetNum: number
     })=>{
-        const temp = 7500000*st.surfaceTemp/distance
+        const temp = 7500000000*st.surfaceTemp/distance
         // gas giant or not
         const r = (Math.random() < 0.25) ? 40000000 + Math.random()*50000000 
             : 1500000 + Math.random()*10000000
@@ -206,7 +206,7 @@ export const Stars = {
         const t3 = Math.random()
         const t4 = Math.random()
         const tsum = t1 + t2 + t3 + t4
-        const m = (r/Stars.earthR)*Stars.earthM*(0.75+0.5*Math.random())
+        const m = (r/Stars.earthR)*(r/Stars.earthR)*(r/Stars.earthR)*Stars.earthM*(0.5+0.75*Math.random())
         //console.log("mass: ", m, r/Stars.earthR)
         const rgb = [80*Math.random(),80*Math.random(),80*Math.random()]
         const rgb1 = [rgb[0]*3, rgb[1]*3, rgb[0]*3]
@@ -215,7 +215,7 @@ export const Stars = {
             mass: m,
             type: "planet",
             atmosphere: atmo,
-            atmoPressure: Math.random()*2*(1+ Math.exp(Math.random()/0.95)),
+            atmoPressure: Math.random()*(2+ Math.exp(Math.random()-0.99)),
             soilSimple: Math.random()*100,
             terrain: {
                 mountains: t1/tsum,
