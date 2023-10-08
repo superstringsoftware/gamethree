@@ -6,7 +6,9 @@ export type Player = {
     name: string,
     _id?: string,
     currentShipId?: string,
-    ships?: string[]
+    ships?: string[],
+    currentGalaxyId?: string,
+    galaxies?: string[]
 }
 
 declare module "meteor/meteor" {

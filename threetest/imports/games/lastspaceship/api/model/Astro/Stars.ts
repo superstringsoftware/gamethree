@@ -1,4 +1,4 @@
-import { IStarData } from "./interfaces"
+import { IPlanetoidData, IStarData } from "./interfaces"
 import { Vector2g } from "./Physics"
 import { StarSystem } from "./StarSystem"
 
@@ -92,6 +92,8 @@ export const StellarClasses = [
 export const Stars = {
     solarM: 2e30,
     solarR: 696340000,
+    earthR: 6370000,
+    earthM: 5.972e24,
 
     // generate random star
     generateStar: (dimx:number, dimy:number) => {
@@ -120,5 +122,50 @@ export const Stars = {
         }
         else throw new Error("Failed to get spectral class")
         
+    },
+
+    generatePlanetForStar:(st:IStarData, distance:number, profile: {
+        atmo: number[], // thresholds for atmosphere
+        planetNum: number
+    })=>{
+        const temp = 7500000*st.surfaceTemp/distance
+        // gas giant or not
+        const r = (Math.random() < 0.27) ? 40000 + Math.random()*50000 
+            : 1500 + Math.random()*12500
+        let atmo : "toxic" | "breathable" | "earth" | "abundant" = "toxic"
+        const atmoR = Math.random()
+        if (atmoR > profile.atmo[0]) atmo = "breathable"
+        if (atmoR > profile.atmo[1]) atmo = "earth"
+        if (atmoR > profile.atmo[2]) atmo = "abundant"
+        const t1 = Math.random()
+        const t2 = Math.random()
+        const t3 = Math.random()
+        const t4 = Math.random()
+        const tsum = t1 + t2 + t3 + t4
+        let pd:IPlanetoidData = {
+            radius: r,
+            mass: (r/Stars.earthR)^3*Stars.earthM*(0.75+0.5*Math.random()),
+            type: "planet",
+            atmosphere: atmo,
+            atmoPressure: Math.random()*2*(1+ Math.exp(Math.random()/0.95)),
+            soilSimple: Math.random()*100,
+            terrain: {
+                mountains: t1/tsum,
+                hills: t2/tsum,
+                plains: t3/tsum,
+                oceans: t4/tsum
+            },
+            minT: temp*(1-0.6*Math.random()),
+            maxT: temp*(1+0.5*Math.random()),
+            code: st.code + "-P0" + profile.planetNum.toString(),
+            name: st.code + "-P0" + profile.planetNum.toString(),
+            description: "",
+            orbit: StarSystem.calculateOrbitParams(st,
+                distance,
+                Math.random()*Math.PI*2,
+                (Math.random()<0.2)? true : false)
+        }
+        StarSystem.verifyGravityBody(pd)
+        return pd;
     }
 }

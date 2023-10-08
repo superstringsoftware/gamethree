@@ -24,8 +24,11 @@ export const Main = () => {
     <Container fluid={"xxl"} className="py-2">
       <Row
         className="text-sci-fi-o py-3 px-4"
+        style={{zIndex:-1500000}}
       >
-        
+          <Col>
+        <Button onClick={()=>console.log("main")}>main</Button>
+        </Col>
       </Row>
       
         <Outlet />

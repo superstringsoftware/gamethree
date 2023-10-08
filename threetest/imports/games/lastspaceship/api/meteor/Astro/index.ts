@@ -4,12 +4,39 @@ import { Vector2g } from "../../model/Astro/Physics";
 import { StarSystem } from "../../model/Astro/StarSystem";
 import { AllHullTypes, IShipData } from "../../model/Ships/interfaces";
 import { ColPlayer, ColShips } from "../Player";
+import {Meteor} from 'meteor/meteor'
+import { Stars } from "../../model/Astro/Stars";
 
 
 export const ColStarsystems = new Mongo.Collection<IStarSystemData>("starsystems")
 export const ColPlanetoids  = new Mongo.Collection<IPlanetoidData>("planetoids")
 
 export const AstroController = {
+
+    // generate and SAVE a new galaxy for a given player
+    // but ONLY galaxy, actual systems are being generated
+    // on the first visit
+    generateGalaxy: (nstars: number, dimx, dimy) => {
+        if (!Meteor.userId()) throw new Meteor.Error("not-authorized", "can't create galaxy anonymously")
+        const player = ColPlayer.findOne({_id:Meteor.user().playerId})
+        if (!player) throw new Meteor.Error("not-authorized", "user doesnt have a player profile")
+        const galId = player._id + "_" + Math.floor(Date.now() / 1000).toString()
+        let gals = player.galaxies ? player.galaxies : []
+        gals.push(galId)
+        ColPlayer.update({_id:player._id}, {
+            $set: {galaxies: gals, currentGalaxyId: galId}
+        })
+        // let's get to star generating
+        for(let i = 0; i<nstars; i++) {
+            let st = Stars.generateStar(dimx,dimy);
+            st.galaxyId = galId
+            ColStarsystems.insert(st)
+        }
+    },
+
+    /**
+     * Creates actual object from the data that's in the db
+     */
     starSystemFromData: (id:string)=> {
         const st = ColStarsystems.findOne({_id:id})
         if (!st) return null
@@ -36,6 +63,21 @@ export const AstroController = {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 export const _createSolarSystem = () => {
     const s = ColStarsystems.findOne({name: "Sol"})
     if (s) {
@@ -240,3 +282,4 @@ export const _createSolarSystem = () => {
 
     
 }
+*/

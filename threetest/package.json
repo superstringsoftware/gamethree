@@ -20,7 +20,8 @@
     "react-dom": "^18.2.0",
     "react-konva": "^18.2.10",
     "react-router-dom": "^6.16.0",
-    "three": "^0.156.1"
+    "three": "^0.156.1",
+    "use-image": "^1.1.1"
   },
   "meteor": {
     "mainModule": {

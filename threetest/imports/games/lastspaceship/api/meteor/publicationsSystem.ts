@@ -12,6 +12,10 @@ Meteor.publish("userData", function(){
     }), ColPlayer.find({_id: Meteor.user().playerId})]
 })
 
+Meteor.publish("galaxyById", function(gid){
+    return ColStarsystems.find({galaxyId: gid})
+})
+
 Meteor.publish("systemByCurrentPlayer", function(){
     const p = ColPlayer.findOne({_id: Meteor.user()?.playerId})
     if (!p) {

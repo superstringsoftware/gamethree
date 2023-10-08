@@ -1,3 +1,4 @@
+import { Resource } from "../Resources";
 import { Vector2g } from "./Physics";
 
 
@@ -16,6 +17,7 @@ export interface IAstroBody {
     orbit?: IOrbitParams; // if present - it's orbiting, if not it's not
     systemId?: string; // which system id it belongs to. if none -
     // coordinates are galactic coordinates
+    galaxyId?: string; // which galaxy the object belongs to
     visuals?: {
         shape?: string,   
         mainColor?: string,
@@ -61,6 +63,28 @@ export interface IStarSystemData extends IStarData {
 export interface IPlanetoidData extends IGravityBody {
     type: "planet" | "moon" | "asteroid"
     // TBD: atmosphere, climate etc.
+    atmosphere?: "toxic" | "breathable" | "earth" | "abundant"
+    atmoGases?: Resource[] // actual levels of O2 / CO2 / methane whatever
+    atmoPressure: number; // relative to earth
+    soilSimple: number; // simplified soil approach - just one number
+    soil?: {
+        abundant?: number,
+        fertile?: number,
+        normal?: number,
+        poor?: number,
+        nogrowth?: number
+    }
+    terrain?: {
+        mountains?: number,
+        hills?: number,
+        plains?: number,
+        oceans?: number
+    }
+    minT: number
+    maxT: number
+    surfaceResources?: Resource[]
+    groundResources?: Resource[]
+
 }
 
 /**

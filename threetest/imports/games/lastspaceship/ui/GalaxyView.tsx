@@ -8,7 +8,9 @@ import { Outlet } from "react-router-dom";
 import {useTracker} from 'meteor/react-meteor-data'
 
 import Konva from 'konva'
-import { Stage, Layer, Rect, Text, Circle, Line } from 'react-konva';
+import { Stage, Layer, Rect, Text, Circle, Line, Image } from 'react-konva';
+
+import useImage from 'use-image';
 
 
 
@@ -99,7 +101,8 @@ export const GalaxyView = () => {
                 return <><Circle x={g.galacticCoords.x*scale} y={g.galacticCoords.y*scale} 
                 radius={r} 
                 fillRadialGradientEndRadius={r}
-                fillRadialGradientColorStops ={[0, g.spectralColor, 0.8, g.spectralColor, 1, 'white']} />
+                fillRadialGradientColorStops ={[0, g.spectralColor, 0.8, g.spectralColor, 1, 'white']} 
+                onClick={(e)=>console.log(g.name)}/>
                 <Text text={g.name}
                   x={g.galacticCoords.x*scale+r+2} y={g.galacticCoords.y*scale - r/2}
                   fontSize={10}
@@ -108,6 +111,7 @@ export const GalaxyView = () => {
                 </>
             })
         }
+        <ShipIcon x={350} y={250} scaleX={0.05} scaleY={0.05} />
       </Layer>
     </Stage>
   
@@ -117,3 +121,7 @@ export const GalaxyView = () => {
 
 
 
+const ShipIcon = (props) => {
+    const [image] = useImage('/lastspaceship/ships/falcon01.png');
+    return <Image image={image} {...props} />;
+  };
