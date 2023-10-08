@@ -18,6 +18,7 @@ import { ColPlayer, ColShips } from "../api/meteor/Player";
 
 import {Meteor} from 'meteor/meteor'
 import { AstroController, ColPlanetoids, ColStarsystems } from "../api/meteor/Astro";
+import { Stars } from "../api/model/Astro/Stars";
 
 
 
@@ -63,7 +64,7 @@ export const AstroView = () => {
         ss1.calcScale(width, height)
         ss1.advanceOrbits(0.1)
         ss1.updateDecart()
-        console.log("SCALE:", ss1)
+        //console.log("SCALE:", ss1)
         setss(ss1)
         setScale(ss1.scale)
         setCurCenter(ss1.star)
@@ -128,8 +129,8 @@ export const AstroView = () => {
                 
                 
             return <><Circle key={i}
-            x={coords.x} y={coords.y} radius={Math.max(10,p.radius/scale)} 
-            fillRadialGradientEndRadius={Math.max(10,p.radius/scale)}
+            x={coords.x} y={coords.y} radius={10*p.radius/Stars.earthR} 
+            fillRadialGradientEndRadius={10*p.radius/Stars.earthR}
             fillRadialGradientColorStops ={p.visuals?.gradientStops? p.visuals.gradientStops : [0, 'gray', 1, '#cccccc']} />
             <Text text={p.name}
                   x={coords.x+6} y={coords.y}

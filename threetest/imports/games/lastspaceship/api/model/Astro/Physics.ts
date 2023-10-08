@@ -40,3 +40,20 @@ export class Vector2g {
         return new Vector2g(p.x*Math.cos(p.y), p.x*Math.sin(p.y))
     }
 }
+
+function componentToHex(c) {
+    var hex = Math.floor(c).toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+  
+  export function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  }
+
+  export function rgbToHexA(rgb) {
+    return "#" + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
+  }
+
+
+
+  

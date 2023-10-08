@@ -1,5 +1,5 @@
 import { IPlanetoidData, IStarData } from "./interfaces"
-import { Vector2g } from "./Physics"
+import { rgbToHexA, Vector2g } from "./Physics"
 import { StarSystem } from "./StarSystem"
 
 export const StellarClasses = [
@@ -116,7 +116,11 @@ export const Stars = {
                 mass: (sc.minM + Math.random()*(sc.maxM-sc.minM))*Stars.solarM,
                 name: "S000" + Math.round(10000*Math.random()).toString(),
                 code: "S000" + Math.round(10000*Math.random()).toString(),
-                description: ""
+                description: "",
+                visuals: {
+                    mainColor: sc.color,
+                    gradientStops: [0, sc.color, 0.3, sc.color, 1, 'white']
+                }
             }
             StarSystem.verifyGravityBody(st)
             return st
@@ -204,6 +208,8 @@ export const Stars = {
         const tsum = t1 + t2 + t3 + t4
         const m = (r/Stars.earthR)*Stars.earthM*(0.75+0.5*Math.random())
         //console.log("mass: ", m, r/Stars.earthR)
+        const rgb = [80*Math.random(),80*Math.random(),80*Math.random()]
+        const rgb1 = [rgb[0]*3, rgb[1]*3, rgb[0]*3]
         let pd:IPlanetoidData = {
             radius: r,
             mass: m,
@@ -222,6 +228,10 @@ export const Stars = {
             code: st.code + "-P0" + profile.planetNum.toString(),
             name: st.code + "-P0" + profile.planetNum.toString(),
             description: "",
+            visuals: {
+                mainColor: rgbToHexA(rgb),
+                gradientStops: [0, rgbToHexA(rgb), 0.8, rgbToHexA(rgb1), 1, 'white']
+            },
             orbit: StarSystem.calculateOrbitParams(st,
                 distance,
                 Math.random()*Math.PI*2,
