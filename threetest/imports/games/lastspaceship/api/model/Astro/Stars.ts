@@ -152,7 +152,8 @@ export const Stars = {
             const p = Stars.generatePlanetForStar(st,
                 d, {
                     atmo: [0.4, 0.75, 0.9],
-                    planetNum: np
+                    planetNum: np,
+                    gasGiantProb: 0
                 })
                 d+=Math.random()*(hzStart-st.radius*5)/nInner
                 np++
@@ -165,7 +166,8 @@ export const Stars = {
             const p = Stars.generatePlanetForStar(st,
                 d, {
                     atmo: [0.2, 0.5, 0.8],
-                    planetNum: np
+                    planetNum: np,
+                    gasGiantProb: 0.1
                 })
                 np++
                 d+=Math.random()*(hzEnd-hzStart)/nHabit
@@ -173,15 +175,16 @@ export const Stars = {
             //console.log(p)
         }
         // outer
-        d = hzEnd + Math.random()*hzEnd
+        d = hzEnd + Math.random()*hzEnd / 3
         for (let i = 0; i<nOuter; i++) {
             const p = Stars.generatePlanetForStar(st,
                 d, {
                     atmo: [0.7, 0.9, 0.98],
-                    planetNum: np
+                    planetNum: np,
+                    gasGiantProb: 0.25
                 })
                 np++
-                d+=Math.random()*hzEnd
+                d+=Math.random()*hzEnd / 3
                 planets.push(p)
             //console.log(p)
         }
@@ -190,11 +193,12 @@ export const Stars = {
 
     generatePlanetForStar:(st:IStarData, distance:number, profile: {
         atmo: number[], // thresholds for atmosphere
-        planetNum: number
+        planetNum: number,
+        gasGiantProb: number
     })=>{
         const temp = 7500000000*st.surfaceTemp/distance
         // gas giant or not
-        const r = (Math.random() < 0.25) ? 40000000 + Math.random()*50000000 
+        const r = (Math.random() < profile.gasGiantProb) ? 40000000 + Math.random()*50000000 
             : 1500000 + Math.random()*10000000
         let atmo : "toxic" | "breathable" | "earth" | "abundant" = "toxic"
         const atmoR = Math.random()
@@ -215,16 +219,16 @@ export const Stars = {
             mass: m,
             type: "planet",
             atmosphere: atmo,
-            atmoPressure: Math.random()*(2+ Math.exp(Math.random()-0.99)),
-            soilSimple: Math.random()*100,
+            atmoPressure: Math.random()*3 + ((Math.random()>0.95) ? 50*Math.random() : 0),
+            soilSimple: ((temp<150) || (temp>400)) ? 0 : Math.random()*100,
             terrain: {
                 mountains: t1/tsum,
                 hills: t2/tsum,
                 plains: t3/tsum,
                 oceans: t4/tsum
             },
-            minT: temp*(1-0.6*Math.random()),
-            maxT: temp*(1+0.5*Math.random()),
+            minT: temp*(1-0.3*Math.random()) - ((Math.random()<0.1) ? temp*0.2*Math.random() : 0),
+            maxT: temp*(1+0.3*Math.random()) + ((Math.random()<0.1) ? temp*0.2*Math.random() : 0),
             code: st.code + "-P0" + profile.planetNum.toString(),
             name: st.code + "-P0" + profile.planetNum.toString(),
             description: "",

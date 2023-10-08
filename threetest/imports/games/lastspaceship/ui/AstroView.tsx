@@ -20,7 +20,7 @@ import {
   ColStarsystems,
 } from "../api/meteor/Astro";
 import { Stars } from "../api/model/Astro/Stars";
-import { IPlanetoidData } from "../api/model/Astro/interfaces";
+import { IPlanetoidData, IStarData } from "../api/model/Astro/interfaces";
 
 export const AstroView = () => {
   const [width, setWidth] = useState(0);
@@ -89,6 +89,8 @@ export const AstroView = () => {
         setTimeScale(timeScale * 0.9);
         break;
       //case "q": setScale(scale*0.9)
+      case "o":
+          setShowOrbits(!showOrbits);break;
       default:
         break;
     }
@@ -98,13 +100,13 @@ export const AstroView = () => {
   useEffect(() => {
     window.addEventListener("keydown", handleKeys);
     return () => window.removeEventListener("keydown", handleKeys);
-  }, [width, height, scale, timeScale]);
+  }, [width, height, scale, timeScale, showOrbits]);
 
   return (
     <Row>
-      <Col md={4} lg={3} sm={12} style={{backgroundColor: "rgba(10,20,10,.7)", }}>
+      <Col md={4} lg={3} sm={12} style={{backgroundColor: "rgba(0,0,0,.25)", }}>
         
-        {selP && <PlanetCard planet={selP} />}
+        {selP ? <PlanetCard planet={selP} /> : <StarCard star={ss?.star} />}
       </Col>
 
       <Col md={8} lg={6} sm={12} ref={ref} style={{ height: "85vh" }}>
@@ -124,8 +126,30 @@ export const AstroView = () => {
                     ? curCenter.visuals.gradientStops
                     : [0, "red", 0.8, "yellow", 1, "white"]
                 }
+                onClick={()=>{
+                    //setSelP(null)
+                    console.log("Selecting star")
+                }}
               />
             )}
+            {ss && showOrbits && 
+            <Circle x={width / 2}
+            y={height / 2}
+            radius={ss.getHabitableZoneBorder().x / scale}
+            stroke={"red"}
+            dash={[1, 1]}
+            strokeWidth={1}
+          />
+            }
+            {ss && showOrbits && 
+            <Circle x={width / 2}
+            y={height / 2}
+            radius={ss.getHabitableZoneBorder().y / scale}
+            stroke={"blue"}
+            dash={[1, 1]}
+            strokeWidth={1}
+          />
+            }
             {showOrbits &&
               ss?.planetoids
                 .filter((pf) => pf.orbit?.centerId === curCenter._id)
@@ -192,12 +216,56 @@ export const AstroView = () => {
   );
 };
 
+const StarCard = (props: {
+    star: IStarData
+}) => {
+    const s = props.star
+    if (!s) return null
+    return <div className="text-sci-fi-w">
+        <hr/>{s.name} <hr/>
+        <ED t="class" v={s.starClass} />
+        <ED t="temperature" v={s.surfaceTemp.toFixed(0)} />
+        <ED t="mass" v={(s.mass/Stars.solarM).toFixed(2) + " Sun"} />
+        <ED t="radius" v={(s.radius/Stars.solarR).toFixed(2) + " Sun"} />
+        </div>
+}
+
 
 const PlanetCard = (props:{
     planet: IPlanetoidData
 }) => {
 
     const p = props.planet
+    const g = p.gOnSurface / 9.81;
+    let gclr = "red"
+    if (g > 0.2) gclr = "yellow"
+    if (g > 0.5) gclr = "green"
+    if (g > 1.2) gclr = "yellow"
+    if (g > 2) gclr = "red"
+
+    const ap = p.atmoPressure
+    let apclr = "red"
+    if (ap > 0.5) apclr = "yellow"
+    if (ap > 0.8) apclr = "green"
+    if (ap > 2) apclr = "yellow"
+    if (ap > 5) apclr = "red"
+
+    let aclr = "red"
+    switch(p.atmosphere) {
+        case "breathable": aclr = "yellow"; break;
+        case "earth": 
+        case "abundant": aclr = "green"; break;
+    }
+
+    let sclr = "red"
+    if (p.soilSimple > 15) sclr = "yellow"
+    if (p.soilSimple > 50) sclr = "green"
+
+    let tclr = "green"
+    if ((p.minT < 220) || (p.maxT > 323)) tclr = "yellow"
+    if ((p.minT < 170) || (p.maxT > 353)) tclr = "red"
+
+
 
     return <div className="text-sci-fi-w">
         <hr/>{p.name} <hr/>
@@ -206,11 +274,13 @@ const PlanetCard = (props:{
         <ED t="radius" v={(p.radius/Stars.earthR).toFixed(2) + " Earth"} />
         <ED t="orbit R" v={(p.orbit?.polar.x / 150000000000).toFixed(2)+ " a.u."} />
         <hr/>Habitation <hr/>
-        <ED t="gravity" v={(p.gOnSurface / 9.81).toFixed(2)+ " Earth"} />
-        <ED t="atm pressure" v= {(p.atmoPressure).toFixed(2)+ " Earth"} />
-        <ED t="atm quality" v= {p.atmosphere} />
-        <ED t="T range, C" v= {(p.minT-273).toFixed(1) + " -- "+ (p.maxT-273).toFixed(1)} />
-        <ED t="soil quality" v= {(p.soilSimple).toFixed(1)+ " %"} />
+        <ED t="gravity" v={g.toFixed(2)+ " Earth"} clr={gclr} />
+        <ED t="atm pressure" v= {(ap).toFixed(2)+ " Earth"} clr={apclr} />
+        <ED t="atm quality" v= {p.atmosphere} clr={aclr} />
+        <ED t="T range, C" 
+        v= {(p.minT-273).toFixed(1) + " to "+ (p.maxT-273).toFixed(1)} 
+        clr={tclr} />
+        <ED t="soil quality" v= {(p.soilSimple).toFixed(1)+ " %"} clr={sclr}/>
         <hr/>Terrain<hr/>
         <ED t="oceans" v= {(p.terrain.oceans*100).toFixed(1)+ " %"} />
         <ED t="plains" v= {(p.terrain.plains*100).toFixed(1)+ " %"} />
@@ -223,7 +293,10 @@ const PlanetCard = (props:{
 }
 
 const ED = (props: {
-    t: string, v: string
+    t: string, v: string, clr?: string
 }) => {
-    return <>{props.t}: <span className="text-sci-fi-o">{props.v}</span><br/></>
+    return <>{props.t}{": "} 
+    {props.clr ? <span style={{color: props.clr}}>{props.v}</span> :
+    <span className="text-sci-fi-o">{props.v}</span>}
+    <br/></>
 }

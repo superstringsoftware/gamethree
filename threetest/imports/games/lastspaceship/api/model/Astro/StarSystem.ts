@@ -60,6 +60,12 @@ export class StarSystem {
     //console.log(this)
     return res
   }
+
+  getHabitableZoneBorder() {
+    const hzStart = 7500000000*this.star.surfaceTemp / 400
+    const hzEnd = 7500000000*this.star.surfaceTemp / 150
+    return new Vector2g(hzStart, hzEnd)
+  }
   
 
   /**
