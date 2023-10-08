@@ -115,6 +115,7 @@ export const Stars = {
                 radius: (sc.minR + Math.random()*(sc.maxR-sc.minR))*Stars.solarR,
                 mass: (sc.minM + Math.random()*(sc.maxM-sc.minM))*Stars.solarM,
                 name: "S000" + Math.round(10000*Math.random()).toString(),
+                code: "S000" + Math.round(10000*Math.random()).toString(),
                 description: ""
             }
             StarSystem.verifyGravityBody(st)

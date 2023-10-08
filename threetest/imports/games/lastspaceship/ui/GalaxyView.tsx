@@ -50,6 +50,7 @@ export const GalaxyView = () => {
 
     const [ssel1, setssel1] = useState(-1)
     const [ssel2, setssel2] = useState(-1)
+    const [namesOn, setNamesOn] = useState(true)
 
     
     
@@ -76,6 +77,7 @@ export const GalaxyView = () => {
         case "w": setTimeScale(timeScale*0.9); break;
         //case "q": setScale(scale*0.9)
         case "Escape": setssel1(-1); setssel2(-1); break;
+        case "n": setNamesOn(!namesOn); break;
         default: break;
     } 
   }
@@ -84,7 +86,7 @@ export const GalaxyView = () => {
   useEffect(()=> {
     window.addEventListener("keydown", handleKeys);
     return ()=>window.removeEventListener("keydown", handleKeys);
-  },[width, height, scale, timeScale])
+  },[width, height, scale, timeScale, namesOn])
 
 
     
@@ -133,12 +135,12 @@ export const GalaxyView = () => {
                   fontSize={10}
                   
                   fill={'green'} />
-                </>}
+                </>}{namesOn &&
                 <Text text={g.name}
                   x={g.galacticCoords.x*scale+r+2} y={g.galacticCoords.y*scale - r/2}
                   fontSize={10}
                   
-                  fill={'gray'} />
+                  fill={'gray'} />}
                 </Fragment>
             })
         }
