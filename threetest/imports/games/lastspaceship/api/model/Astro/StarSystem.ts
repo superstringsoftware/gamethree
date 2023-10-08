@@ -41,7 +41,14 @@ export class StarSystem {
   }
 
   calcScale(w:number, h:number) {
-    this.scale = this.star.radius * 1000 / Math.min(w,h)
+    let maxR = (this.planetoids.length > 0) ? this.planetoids[0].orbit.polar.x : this.star.radius * 1000
+    for (let i = 1; i<this.planetoids.length; i++) {
+      if (this.planetoids[i].orbit.polar.x > maxR) {
+        maxR = this.planetoids[i].orbit.polar.x
+      }
+    }
+    maxR = maxR *2
+    this.scale = maxR / Math.min(w,h)
     this.centerX = w/2
     this.centerY = h/2
   }
